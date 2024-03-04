@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Project 3 - YourHired!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('images/navy.png');
+            background-size: cover;
+            color: #fff;
+        }
+        #wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+        #header {
+    text-align: center;
+    margin: 20px;
+    background-color: #001f3f; /* Navy background */
+    padding: 10px; /* Add padding for better spacing */
+    border-radius: 5px; /* Add rounded corners */
+    border: 2px solid #ddd; /* Light gray border */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+        .logo {
+            text-decoration: none;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .mySlides {
+            display: none;
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto;
+        }
+        .fade {
+            animation: fadeEffect 1.5s;
+        }
+        @keyframes fadeEffect {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+        .slide-description {
+            font-size: 18px;
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+        .slide-description.smaller {
+            font-size: 16px;
+        }
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            z-index: 1; /* Ensure buttons appear above images */
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+        }
+        .prev {
+            left: 0;
+        }
+        .next {
+            right: 0;
+        }
+        .next::after, .prev::after {
+            content: ''; /* Remove the arrow symbols */
+        }
+        .prev::after {
+            content: ''; /* Remove the arrow symbols */
+        }
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+        .active, .dot:hover {
+            background-color: #fff;
+        }
+        .dots-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <header id="header">
+            <a href="index.html" class="logo">My Portfolio</a>
+        </header>
+    <div id="wrapper">
+        <!-- Header -->
+        
+
+        <!-- Slideshow Container -->
+        <div class="slideshow-container">
+            <!-- Slide 1 -->
+            <div class="mySlides fade">
+                <video width="640" height="360" controls muted>
+                    <source src="images/rota/NOAUDIO.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="slide-description">The above video shows a demonstration of the website. Click on the next slides to see how some of the main code was implemented.</div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="mySlides fade">
+                <img src="images/rota/D1.png" alt="Slide 2" style="max-height: 300px; width: 500px; display: block; margin: 0 auto;">
+                <img src="images/rota/D2.png" alt="Slide 2" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">The provided code snippet illustrates the process of adding shifts in a Django web application. The addshift function begins by verifying if the user accessing the view is a manager, determining their authorization to proceed or displaying an unauthorized message. The function then retrieves the current manager's store name to filter employees for ethical roster management. The list of existing shifts, essential for the manager's reference, is obtained and passed into the HTML template. If the HTTP request method is POST, indicating a shift submission, the function stores the new shift in the database. Regardless of the outcome, the page displays the roster along with the newly added shift upon completion. The form structure required for shift submission is defined in the forms.py file, adhering to Django conventions for form storage.</div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="mySlides fade">
+                <img src="images/rota/D3.png" alt="Slide 3" style="max-height: 300px; width: 500px; display: block; margin: 0 auto;">
+                <img src="images/rota/D4.png" alt="Slide 3" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">The provided code snippet outlines the process of a manager editing pay information for employees in a Django web application. The manageEmployees function, responsible for this functionality, relies on a form from the forms.py file to present the required data for editing, including data types. The function first verifies the manager's role before proceeding and then filters the displayed employees based on the manager's store affiliation. The list of employees is retrieved for the manager to view and decide on edits using editable textboxes. Upon pressing the save changes button, the POST method is triggered, saving the edited employee data in the profile table, which maintains a one-to-one relationship with the user table. Success messages are provided upon completion, and the page reloads to reflect the updated information.</div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="mySlides fade">
+                <img src="images/rota/D5.png" alt="Slide 4" style="max-height: 300px; width: 500px; display: block; margin: 0 auto;">
+                <img src="images/rota/D6.png" alt="Slide 4" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">The provided code snippet illustrates the process of employees requesting holiday time in a Django web application through the manageEmployees function. The function utilizes a form from forms.py to collect required data, including dates, following Django conventions. It first checks if the user's request is a POST method and validates the form based on predefined rules. Upon successful validation, a success message is displayed, and the holiday request is stored in the designated table. The function also provides the user with a list of their previous holiday requests for reference. The forms.py code defines the request form with fields corresponding to the holidayRequest model, and it includes an overridden init method to capture the user making the request. Additionally, the save method is overridden to store essential data such as dates and the user submitting the request.</div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="mySlides fade">
+                <img src="images/rota/D7.png" alt="Slide 5" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">The provided code snippet outlines the process of a manager responding to holiday requests in a Django web application. The view function, dedicated to this functionality, begins by checking the manager's role and retrieving the store name to ensure they can only respond to requests from employees in their store. The function then assesses the HTTP request method, and if it's a POST request, indicating a decision on holiday approval or denial, it retrieves the relevant data from the request. The holiday status is updated accordingly, and if approved, a new shift record is created with a 'holiday' description for the user. The page displays the list of holiday requests along with their respective statuses, providing a comprehensive overview for the manager. No form is required in this case, as the focus is on modifying the status of pre-existing requests rather than collecting new data.</div>
+            </div>
+
+            <!-- Slide 6 -->
+            <div class="mySlides fade">
+                <img src="images/rota/D8.png" alt="Slide 6" style="max-height: 300px; width: 500px; display: block; margin: 0 auto;">
+                <img src="images/rota/D9.png" alt="Slide 6" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">The provided code snippet illustrates a unique and challenging feature of a Django web application where employees can offer or accept shifts from colleagues. The view function, designed for the shift offer page, retrieves a list of the user's shifts and shifts offered by colleagues in their store. The function checks for a POST request and determines whether the user is offering a shift or accepting an offered shift based on the submitted shift_id or offered_shift_id. If a shift is offered, the user ID for that shift is updated to the current user, and the page is redirected for the user to view the shifts and offered shifts again. The implementation works effectively, but the developer acknowledges potential improvements, such as adding a time limit to automatically delete shift offer records for past shifts, enhancing the application's functionality and user experience.</div>
+            </div>
+
+            <!-- Slide 7 -->
+            <div class="mySlides fade">
+                <img src="images/rota/D10.png" alt="Slide 7" style="max-height: 300px; width: 500px; display: block; margin: 0 auto;">
+                <div class="slide-description">The presented code snippet showcases the view function for a Django web application allowing managers to add new employees. The function begins by checking the user's role, ensuring only managers can access the add employee page. If the HTTP request method is POST, indicating a form submission, the function validates the form based on the rules specified in the forms.py file. Upon successful validation, a new user is created, associated with a profile, and automatically assigned the manager's store name. This design choice eliminates the need for managers to manually input the store name for each new employee. Notably, the absence of a manager registration page is explained, taking inspiration from similar websites, with the rationale that manual addition of managers through the Django admin site ensures legitimacy and control over user access to the application.</div>
+            </div>
+
+            <!-- Previous and Next Buttons -->
+            <a class="prev" onclick="plusSlides(-1)">&lt;</a>
+            <a class="next" onclick="plusSlides(1)">&gt;</a>
+
+            <!-- Dots/Bullets for Navigation -->
+            <div class="dots-container">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+                <span class="dot" onclick="currentSlide(5)"></span>
+                <span class="dot" onclick="currentSlide(6)"></span>
+                <span class="dot" onclick="currentSlide(7)"></span>
+            </div>
+        </div>
+
+        <script>
+            // JavaScript for slideshow functionality
+            let slideIndex = 1;
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                showSlides(slideIndex += n);
+            }
+
+            function currentSlide(n) {
+                showSlides(slideIndex = n);
+            }
+
+            function showSlides(n) {
+                let i;
+                let slides = document.getElementsByClassName("mySlides");
+                let dots = document.getElementsByClassName("dot");
+                if (n > slides.length) { slideIndex = 1; }
+                if (n < 1) { slideIndex = slides.length; }
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
+                slides[slideIndex - 1].style.display = "block";
+                dots[slideIndex - 1].className += " active";
+            }
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Project 2 - Languages</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('images/navy.png');
+            background-size: cover;
+            color: #fff;
+        }
+        #wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+        #header {
+    text-align: center;
+    margin: 20px;
+    background-color: #001f3f; /* Navy background */
+    padding: 10px; /* Add padding for better spacing */
+    border-radius: 5px; /* Add rounded corners */
+    border: 2px solid #ddd; /* Light gray border */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+        .logo {
+            text-decoration: none;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .mySlides {
+            display: none;
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto;
+        }
+        .fade {
+            animation: fadeEffect 1.5s;
+        }
+        @keyframes fadeEffect {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+        .slide-description {
+            font-size: 18px;
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            z-index: 1; /* Ensure buttons appear above images */
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+        }
+        .prev {
+            left: 0;
+        }
+        .next {
+            right: 0;
+        }
+        .next::after, .prev::after {
+            content: ''; /* Remove the arrow symbols */
+        }
+        .prev::after {
+            content: ''; /* Remove the arrow symbols */
+        }
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+        .active, .dot:hover {
+            background-color: #fff;
+        }
+        .dots-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body> 
+    <header id="header">
+            <a href="index.html" class="logo">My Portfolio</a>
+        </header>
+    <div id="wrapper">
+        <!-- Header -->
+       
+
+        <!-- Slideshow Container -->
+        <div class="slideshow-container">
+            <!-- Slide 1 -->
+            <div class="mySlides fade">
+                <img src="images/language/L1.webp" alt="Slide 1" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">The login page displays a message if the login information found and successful if not it would say login failed.</div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="mySlides fade">
+                <img src="images/language/L2.webp" alt="Slide 2" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">The create login page displays a message if the username and password is valid, if the textboxes are empty and error would show and would ask the user use to enter details.</div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="mySlides fade">
+                <img src="images/language/L3.webp" alt="Slide 3" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">The main menu shows up once the login has been successful, it shows three buttons for the user to navigate around the program.</div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="mySlides fade">
+                <img src="images/language/L4.webp" alt="Slide 4" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">If the user selects the test or learn category the program navigates to the category screen where the user has 5 options to choose from.</div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="mySlides fade">
+                <img src="images/language/L5.webp" alt="Slide 5" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">This screenshot shows a learning screen for the warning’s category, this shows an image of a sign with the name and a description. It also shows the number of signs on the top right, and has buttons to navigate around the signs if the user wants to go back or forward.</div>
+            </div>
+
+            <!-- Slide 6 -->
+            <div class="mySlides fade">
+                <img src="images/language/L6.webp" alt="Slide 6" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">This screenshot shows a test screen for the Roadworks category, this shows an image of a sign with the question and shows four possible answers. It also shows the question number the user is currently at. After the user has finished the test, it will tell the user their score and percentage.</div>
+            </div>
+
+            <!-- Slide 7 -->
+            <div class="mySlides fade">
+                <img src="images/language/L7.webp" alt="Slide 7" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">Once the user completes a set of questions this screen shows, this allows the user to view their incorrect answers or just view their whole results.</div>
+            </div>
+
+            <!-- Slide 8 -->
+            <div class="mySlides fade">
+                <img src="images/language/L8.webp" alt="Slide 8" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">If the user decides to view their incorrect answers, the user will show them the image and the question and answer of the ones they got wrong.</div>
+            </div>
+
+            <!-- Slide 9 -->
+            <div class="mySlides fade">
+                <img src="images/language/L9.webp" alt="Slide 9" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">This screenshot shows the results for the user and it displays once a user has finished a particular test and chooses view results or the user clicks on view result in the menu section. The result is stored in a table with the 5 categories shown. The results are store in percentages due their being uneven numbers of questions in each category, its better for the user to understand which is their weakest category and what they need to improve in.</div>
+            </div>
+
+            <!-- Slide 10 -->
+            <div class="mySlides fade">
+                <img src="images/language/L10.webp" alt="Slide 10" style="max-height: 300px; width: auto; display: block; margin: 0 auto;">
+                <div class="slide-description">The data for the program is stored in the access database, it stores the sign names, the descriptions and the file path for the image as well as the category ID, which is related to the category table, this is so the program brings out the correct questions for whichever category the user chooses.</div>
+            </div>
+
+            <!-- Previous and Next Buttons -->
+            <a class="prev" onclick="plusSlides(-1)">&lt;</a>
+            <a class="next" onclick="plusSlides(1)">&gt;</a>
+        </div>
+
+        <!-- Dots/Bullets for Navigation -->
+        <div class="dots-container" style="text-align:center">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+            <span class="dot" onclick="currentSlide(5)"></span>
+            <span class="dot" onclick="currentSlide(6)"></span>
+            <span class="dot" onclick="currentSlide(7)"></span>
+            <span class="dot" onclick="currentSlide(8)"></span>
+            <span class="dot" onclick="currentSlide(9)"></span>
+            <span class="dot" onclick="currentSlide(10)"></span>
+        </div>
+
+        <script>
+            // JavaScript for slideshow functionality
+            let slideIndex = 1;
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                showSlides(slideIndex += n);
+            }
+
+            function currentSlide(n) {
+                showSlides(slideIndex = n);
+            }
+
+            function showSlides(n) {
+                let i;
+                let slides = document.getElementsByClassName("mySlides");
+                let dots = document.getElementsByClassName("dot");
+                if (n > slides.length) { slideIndex = 1; }
+                if (n < 1) { slideIndex = slides.length; }
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
+                slides[slideIndex - 1].style.display = "block";
+                dots[slideIndex - 1].className += " active";
+            }
+        </script>
+    </div>
+</body>
+</html>
