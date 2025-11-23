@@ -1,237 +1,699 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 1 - Roadsigns</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to external stylesheet for better organization -->
-    <style>
-        /* Additional CSS specific to this page, if needed */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-image: url('images/navy.png');
-            background-size: cover;
-            color: #fff;
-        }
-        #wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative; /* Added position relative */
-        }
-        #header {
-    text-align: center;
-    margin: 20px;
-    background-color: #001f3f; /* Navy background */
-    padding: 10px; /* Add padding for better spacing */
-    border-radius: 5px; /* Add rounded corners */
-    border: 2px solid #ddd; /* Light gray border */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-}
-.logo {
-    text-decoration: none;
-    color: #fff; /* White text color */
-    font-size: 24px;
-    font-weight: bold;
-}
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>Roadsigns Quiz · Project 1</title>
 
+  <!-- If you have a global styles.css, keep this -->
+  <link rel="stylesheet" href="styles.css" />
 
+  <!-- Google Font (optional, but looks nicer) -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
 
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #020617;
+      --card: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.1);
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --border: rgba(148, 163, 184, 0.35);
+      --radius-lg: 16px;
+      --radius-xl: 22px;
+      --shadow-soft: 0 22px 50px rgba(15, 23, 42, 0.7);
+      --transition-fast: 0.18s ease-out;
+      --transition-med: 0.28s ease-out;
+    }
 
-        .slideshow-container {
-            position: relative;
-            max-width: 100%;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .mySlides {
-            display: none;
-            max-width: 100%;
-            height: auto;
-            margin: 0 auto; /* Center images */
-        }
-        .fade {
-            animation: fadeEffect 1.5s;
-        }
-        @keyframes fadeEffect {
-            from { opacity: 0.4; }
-            to { opacity: 1; }
-        }
-        .slide-description {
-            font-size: 18px;
-            padding: 10px;
-        }
-        .prev, .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-            transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            z-index: 1; /* Ensure buttons appear above images */
-            width: 40px;
-            height: 40px;
-            text-align: center;
-            line-height: 40px;
-        }
-        .prev {
-            left: 0;
-        }
-        .next {
-            right: 0;
-        }
-        .next::after, .prev::after {
-            content: ''; /* Remove the arrow symbols */
-        }
-        .prev::after {
-            content: ''; /* Remove the arrow symbols */
-        }
-        .prev:hover, .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-        .dot {
-            cursor: pointer;
-            height: 15px;
-            width: 15px;
-            margin: 0 2px;
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color 0.6s ease;
-        }
-        .active, .dot:hover {
-            background-color: #fff;
-        }
-        .dots-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-    </style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, #0b1120 0, #020617 50%),
+        url("images/navy.png") center/cover fixed no-repeat;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Layout */
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3rem;
+    }
+
+    @media (min-width: 900px) {
+      .wrap {
+        padding: 2rem 0 4rem;
+      }
+    }
+
+    /* Header */
+
+    #header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: linear-gradient(
+        to bottom,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.75),
+        transparent
+      );
+      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      text-decoration: none;
+      color: #f9fafb;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .back-link {
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.9);
+      transition: all var(--transition-fast);
+    }
+
+    .back-link span {
+      font-size: 1rem;
+      transform: translateY(-0.5px);
+    }
+
+    .back-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* Main content */
+
+    .content-card {
+      margin-top: 2rem;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top, #020617 0, #020617 60%);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 1.5rem 1.4rem 1.6rem;
+    }
+
+    @media (min-width: 768px) {
+      .content-card {
+        padding: 1.8rem 1.7rem 1.8rem;
+      }
+    }
+
+    .project-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .project-kicker {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+    }
+
+    .project-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    .project-subtitle {
+      font-size: 0.92rem;
+      color: var(--muted);
+      max-width: 40rem;
+      line-height: 1.5;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+
+    .meta-pill {
+      font-size: 0.78rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.94);
+      color: var(--muted);
+    }
+
+    /* Slideshow */
+
+    .slideshow-shell {
+      margin-top: 1.6rem;
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      overflow: hidden;
+    }
+
+    .slideshow-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .slideshow-counter {
+      font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+    }
+
+    .slideshow-progress {
+      flex: 1;
+      height: 3px;
+      margin-left: 0.75rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      overflow: hidden;
+    }
+
+    .slideshow-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #38bdf8, #22c55e);
+      transition: width 0.35s ease-out;
+    }
+
+    .slideshow-container {
+      position: relative;
+      max-width: 100%;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .mySlides {
+      display: none;
+      padding: 1.1rem 1.1rem 1.2rem;
+    }
+
+    .slide-image-wrapper {
+      border-radius: 1rem;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #020617 0, #020617 60%);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .mySlides img {
+      max-height: 320px;
+      margin: 0 auto;
+      width: 100%;
+      object-fit: contain;
+      background-color: #020617;
+    }
+
+    @media (min-width: 900px) {
+      .mySlides img {
+        max-height: 380px;
+      }
+    }
+
+    .slide-description {
+      font-size: 0.88rem;
+      padding: 0.85rem 0.2rem 0.1rem;
+      color: var(--muted);
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    .slide-description strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    /* Arrows */
+
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: 600;
+      font-size: 1.2rem;
+      transition: 0.25s ease-out;
+      border-radius: 999px;
+      background-color: rgba(15, 23, 42, 0.85);
+      padding: 0;
+      z-index: 2;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: #e5e7eb;
+    }
+
+    .prev {
+      left: 0.75rem;
+    }
+
+    .next {
+      right: 0.75rem;
+    }
+
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(15, 23, 42, 0.98);
+      border-color: var(--accent);
+      transform: translateY(-50%) translateY(-1px);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.8);
+    }
+
+    /* Dots */
+
+    .dots-container {
+      padding: 0.8rem 0.8rem 1rem;
+      text-align: center;
+      border-top: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .dot {
+      cursor: pointer;
+      height: 10px;
+      width: 10px;
+      margin: 0 3px;
+      background-color: rgba(148, 163, 184, 0.45);
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color var(--transition-med),
+        transform var(--transition-med);
+    }
+
+    .dot.active,
+    .dot:hover {
+      background-color: #e5e7eb;
+      transform: scale(1.15);
+    }
+
+    /* Fade animation */
+
+    .fade {
+      animation: fadeEffect 0.6s ease-out;
+    }
+
+    @keyframes fadeEffect {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Extra text section */
+
+    .project-notes {
+      margin-top: 1.6rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .project-notes strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+  </style>
 </head>
-<body>
-     <header id="header">
-            <a href="index.html" class="logo">My Portfolio</a>
-        </header>
-    <div id="wrapper">
-        <!-- Header -->
-   
 
-        <!-- Slideshow Container -->
-        <div class="slideshow-container">
+<body>
+  <div class="page">
+    <!-- Header -->
+    <header id="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">My Portfolio</a>
+        <a href="index.html" class="back-link">
+          <span>&larr;</span>
+          Back to projects
+        </a>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="content-card">
+        <!-- Project intro -->
+        <header class="project-header">
+          <div class="project-kicker">Project 1</div>
+          <h1 class="project-title">Roadsigns Multiple-Choice Quiz</h1>
+          <p class="project-subtitle">
+            A Visual Basic desktop application that quizzes users on UK road
+            signs. It includes login and account creation, learn and test
+            modes, and stores results in an Access database using SQL queries.
+          </p>
+          <div class="project-meta">
+            <span class="meta-pill">VB .NET</span>
+            <span class="meta-pill">Microsoft Access</span>
+            <span class="meta-pill">Relational database</span>
+            <span class="meta-pill">SQL queries</span>
+          </div>
+        </header>
+
+        <!-- Slideshow -->
+        <div class="slideshow-shell">
+          <div class="slideshow-header">
+            <div>
+              Screenshots &nbsp;·&nbsp; walkthrough of key screens
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem">
+              <span class="slideshow-counter" id="slideCounter">
+                1 / 10
+              </span>
+              <div class="slideshow-progress">
+                <div
+                  class="slideshow-progress-bar"
+                  id="slideProgress"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="slideshow-container">
             <!-- Slide 1 -->
             <div class="mySlides fade">
-                <img src="images/roadsign/R1.webp" alt="Slide 1" style="max-height: 300px;">
-                <div class="slide-description">The login page displays a message if the login information is found and successful. If not, it would say "login failed".</div>
+              <div class="slide-image-wrapper">
+                <img
+                  src="images/roadsign/R1.webp"
+                  alt="Login page with success and failure message"
+                />
+              </div>
+              <p class="slide-description">
+                <strong>Login screen:</strong> users enter their details and
+                receive feedback if the login is successful or fails (e.g.
+                “login failed” for invalid credentials).
+              </p>
             </div>
 
             <!-- Slide 2 -->
             <div class="mySlides fade">
-                <img src="images/roadsign/R2.webp" alt="Slide 2" style="max-height: 300px;">
-                <div class="slide-description">The create login page displays a message if the username and password are valid. If the textboxes are empty, an error would show and prompt the user to enter details.</div>
+              <div class="slide-image-wrapper">
+                <img
+                  src="images/roadsign/R2.webp"
+                  alt="Create login page"
+                />
+              </div>
+              <p class="slide-description">
+                <strong>Create account:</strong> the program validates the
+                username and password. If any fields are empty, an error
+                message prompts the user to complete the form.
+              </p>
             </div>
 
             <!-- Slide 3 -->
             <div class="mySlides fade">
-                <img src="images/roadsign/R3.webp" alt="Slide 3">
-                <div class="slide-description">The main menu shows up once the login has been successful. It presents three buttons for the user to navigate around the program.</div>
+              <div class="slide-image-wrapper">
+                <img
+                  src="images/roadsign/R3.webp"
+                  alt="Main menu screen"
+                />
+              </div>
+              <p class="slide-description">
+                <strong>Main menu:</strong> after a successful login, the
+                main menu appears, giving the user three clear options to
+                navigate around the program.
+              </p>
             </div>
 
             <!-- Slide 4 -->
             <div class="mySlides fade">
-                <img src="images/roadsign/R4.webp" alt="Slide 4">
-                <div class="slide-description">If the user selects the test or learn category, the program navigates to the category screen where the user has 5 options to choose from.</div>
+              <div class="slide-image-wrapper">
+                <img
+                  src="images/roadsign/R4.webp"
+                  alt="Category selection screen"
+                />
+              </div>
+              <p class="slide-description">
+                <strong>Category selection:</strong> when the user chooses
+                test or learn mode, they are taken to the category screen,
+                where they can pick from five different road sign categories.
+              </p>
             </div>
 
             <!-- Slide 5 -->
             <div class="mySlides fade">
-                <img src="images/roadsign/R5.webp" alt="Slide 5">
-                <div class="slide-description">This screenshot shows a learning screen for the warning category. It displays an image of a sign with the name and a description, along with navigation buttons.</div>
+              <div class="slide-image-wrapper">
+                <img
+                  src="images/roadsign/R5.webp"
+                  alt="Learning mode screen"
+                />
+              </div>
+              <p class="slide-description">
+                <strong>Learn mode:</strong> displays a sign image, its name,
+                and a description. Navigation buttons let users go through
+                each sign in the selected category at their own pace.
+              </p>
             </div>
 
             <!-- Slide 6 -->
             <div class="mySlides fade">
-                <img src="images/roadsign/R6.webp" alt="Slide 6" style="max-height: 300px;">
-                <div class="slide-description">This screenshot shows a test screen for the Roadworks category. It presents an image of a sign with a question and four possible answers.</div>
+              <div class="slide-image-wrapper">
+                <img
+                  src="images/roadsign/R6.webp"
+                  alt="Test mode screen"
+                />
+              </div>
+              <p class="slide-description">
+                <strong>Test mode:</strong> shows a sign and a multiple-choice
+                question with four possible answers. The user selects their
+                choice, and the program tracks their score.
+              </p>
             </div>
 
             <!-- Slide 7 -->
             <div class="mySlides fade">
-                <img src="images/roadsign/R7.webp" alt="Slide 7">
-                <div class="slide-description">Once the user completes a set of questions, this screen shows, allowing the user to view their incorrect answers or the whole results.</div>
+              <div class="slide-image-wrapper">
+                <img
+                  src="images/roadsign/R7.webp"
+                  alt="Results options screen"
+                />
+              </div>
+              <p class="slide-description">
+                <strong>Post-test summary:</strong> after a set of questions,
+                the user can choose to review only their incorrect answers or
+                browse all results.
+              </p>
             </div>
 
             <!-- Slide 8 -->
             <div class="mySlides fade">
-                <img src="images/roadsign/R8.webp" alt="Slide 8">
-                <div class="slide-description">If the user decides to view their incorrect answers, the program will show them the image and the question and answer of the ones they got wrong.</div>
+              <div class="slide-image-wrapper">
+                <img
+                  src="images/roadsign/R8.webp"
+                  alt="Incorrect answers review screen"
+                />
+              </div>
+              <p class="slide-description">
+                <strong>Review incorrect answers:</strong> the application
+                shows the sign, the question, and the user’s answer so they
+                can clearly see what they got wrong and learn from it.
+              </p>
             </div>
 
             <!-- Slide 9 -->
             <div class="mySlides fade">
-                <img src="images/roadsign/R9.webp" alt="Slide 9">
-                <div class="slide-description">This screenshot shows the results for the user, displayed once they finish a particular test. Results are stored in a table with percentages for each category.</div>
+              <div class="slide-image-wrapper">
+                <img
+                  src="images/roadsign/R9.webp"
+                  alt="Results summary screen"
+                />
+              </div>
+              <p class="slide-description">
+                <strong>Results overview:</strong> results are stored and
+                displayed in a table, including percentages for each category,
+                giving a clear picture of performance.
+              </p>
             </div>
 
             <!-- Slide 10 -->
             <div class="mySlides fade">
-                <img src="images/roadsign/R10.webp" alt="Slide 10">
-                <div class="slide-description">The data for the program is stored in the access database, including sign names, descriptions, file paths for images, and category IDs.</div>
+              <div class="slide-image-wrapper">
+                <img
+                  src="images/roadsign/R10.webp"
+                  alt="Access database design screenshot"
+                />
+              </div>
+              <p class="slide-description">
+                <strong>Database design:</strong> all sign data is stored in a
+                Microsoft Access database, including sign names, descriptions,
+                image file paths, and category IDs – showing the relational
+                structure behind the app.
+              </p>
             </div>
 
-                <!-- Previous and Next Buttons -->
-                <a class="prev" onclick="plusSlides(-1)">&lt;</a>
-                <a class="next" onclick="plusSlides(1)">&gt;</a>
-            </div>
-    
-            <!-- Dots/Bullets for Navigation -->
-            <div class="dots-container" style="text-align:center">
-                <span class="dot" onclick="currentSlide(1)"></span>
-                <span class="dot" onclick="currentSlide(2)"></span>
-                <span class="dot" onclick="currentSlide(3)"></span>
-                <span class="dot" onclick="currentSlide(4)"></span>
-                <span class="dot" onclick="currentSlide(5)"></span>
-                <span class="dot" onclick="currentSlide(6)"></span>
-                <span class="dot" onclick="currentSlide(7)"></span>
-                <span class="dot" onclick="currentSlide(8)"></span>
-                <span class="dot" onclick="currentSlide(9)"></span>
-                <span class="dot" onclick="currentSlide(10)"></span>
-            </div>
+            <!-- Previous and Next Buttons -->
+            <button class="prev" type="button" onclick="plusSlides(-1)">
+              &#8592;
+            </button>
+            <button class="next" type="button" onclick="plusSlides(1)">
+              &#8594;
+            </button>
+          </div>
 
-    <script>
-        // JavaScript for slideshow functionality
-        let slideIndex = 1;
-        showSlides(slideIndex);
+          <!-- Dots/Bullets for Navigation -->
+          <div class="dots-container">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+            <span class="dot" onclick="currentSlide(5)"></span>
+            <span class="dot" onclick="currentSlide(6)"></span>
+            <span class="dot" onclick="currentSlide(7)"></span>
+            <span class="dot" onclick="currentSlide(8)"></span>
+            <span class="dot" onclick="currentSlide(9)"></span>
+            <span class="dot" onclick="currentSlide(10)"></span>
+          </div>
+        </div>
 
-        function plusSlides(n) {
-            showSlides(slideIndex += n);
-        }
+        <!-- Extra short explanation -->
+        <div class="project-notes">
+          <p>
+            This project helped me build confidence in
+            <strong>form validation</strong>, <strong>user feedback</strong>,
+            and <strong>working with relational databases</strong>. I used
+            SQL queries from Visual Basic to insert and update records in
+            the Access database, which is a skill I’ve carried into more
+            recent projects.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
 
-        function currentSlide(n) {
-            showSlides(slideIndex = n);
-        }
+  <script>
+    // JavaScript for slideshow functionality
+    let slideIndex = 1;
+    const totalSlides = 10;
 
-        function showSlides(n) {
-            let i;
-            let slides = document.getElementsByClassName("mySlides");
-            let dots = document.getElementsByClassName("dot");
-            if (n > slides.length) { slideIndex = 1; }
-            if (n < 1) { slideIndex = slides.length; }
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
-            }
-            slides[slideIndex - 1].style.display = "block";
-            dots[slideIndex - 1].className += " active";
-        }
-    </script>
+    const counterEl = document.getElementById("slideCounter");
+    const progressEl = document.getElementById("slideProgress");
+
+    function updateMeta() {
+      counterEl.textContent = slideIndex + " / " + totalSlides;
+      const percent = (slideIndex / totalSlides) * 100;
+      if (progressEl) {
+        progressEl.style.width = percent + "%";
+      }
+    }
+
+    function showSlides(n) {
+      let i;
+      const slides = document.getElementsByClassName("mySlides");
+      const dots = document.getElementsByClassName("dot");
+
+      if (n > slides.length) {
+        slideIndex = 1;
+      }
+      if (n < 1) {
+        slideIndex = slides.length;
+      }
+
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+
+      updateMeta();
+    }
+
+    function plusSlides(n) {
+      showSlides((slideIndex += n));
+    }
+
+    function currentSlide(n) {
+      showSlides((slideIndex = n));
+    }
+
+    // Keyboard navigation (left/right arrows)
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") {
+        plusSlides(-1);
+      } else if (e.key === "ArrowRight") {
+        plusSlides(1);
+      }
+    });
+
+    // Initialise
+    showSlides(slideIndex);
+  </script>
 </body>
 </html>
