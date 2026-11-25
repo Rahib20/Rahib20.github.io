@@ -1,0 +1,2153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="YourHired, a Django rota management system developed as a Computer Science final-year university project.">
+  <title>YourHired | Rahib Rahman</title>
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --surface: #111a2e;
+      --surface-2: #172239;
+      --text: #f1f5fb;
+      --muted: #a0aec4;
+      --accent: #69b9ff;
+      --accent-2: #a78bfa;
+      --border: rgba(174, 195, 225, 0.13);
+      --radius: 20px;
+      --max-width: 1100px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 95px;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 750px;
+      background:
+        radial-gradient(
+          ellipse at 75% 15%,
+          rgba(167, 139, 250, 0.14),
+          transparent 48%
+        ),
+        radial-gradient(
+          ellipse at 15% 30%,
+          rgba(105, 185, 255, 0.09),
+          transparent 43%
+        );
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #08101e;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 44px));
+      margin-inline: auto;
+    }
+
+    /* Navigation */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 16, 32, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #69b9ff, #b39aff);
+      color: #091224;
+      border-radius: 12px;
+      font-size: 19px;
+      font-weight: 850;
+    }
+
+    .back-link {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent);
+    }
+
+    /* Buttons */
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 47px;
+      padding: 11px 20px;
+      border-radius: 11px;
+      background: var(--accent);
+      color: #071326;
+      font-size: 14px;
+      font-weight: 700;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .button:hover {
+      background: #95ceff;
+      transform: translateY(-2px);
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: white;
+    }
+
+    .button-secondary:hover {
+      background: var(--surface-2);
+    }
+
+    /* Hero */
+
+    .project-hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 70px;
+      padding-block: 95px 85px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 15px rgba(105, 185, 255, 0.6);
+    }
+
+    .project-title {
+      margin: 0 0 24px;
+      font-size: clamp(38px, 4.6vw, 60px);
+      line-height: 1.14;
+      letter-spacing: -2.5px;
+      font-weight: 800;
+    }
+
+    .gradient-text {
+      background: linear-gradient(105deg, #69b9ff, #b9a2ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .project-intro {
+      max-width: 650px;
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin: 25px 0 30px;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      background: rgba(151, 177, 210, 0.08);
+      border: 1px solid var(--border);
+      color: #b6c8df;
+      border-radius: 7px;
+      font-size: 12px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Real application preview */
+
+    .hero-preview {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-preview::before {
+      content: "";
+      position: absolute;
+      width: 370px;
+      height: 270px;
+      top: 5px;
+      background: rgba(167, 139, 250, 0.22);
+      filter: blur(90px);
+      pointer-events: none;
+    }
+
+    .preview-card {
+      position: relative;
+      width: min(100%, 430px);
+      padding: 14px;
+      background: linear-gradient(145deg, #26304d, #121b32);
+      border: 1px solid rgba(167, 139, 250, 0.3);
+      border-radius: 25px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+      transform: rotate(1deg);
+    }
+
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 13px;
+      gap: 12px;
+    }
+
+    .preview-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .preview-dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #64748b;
+    }
+
+    .preview-dots span:first-child {
+      background: #a78bfa;
+    }
+
+    .preview-label {
+      color: #a9b8d2;
+      font-size: 10px;
+      font-weight: 650;
+    }
+
+    .preview-card img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .preview-caption {
+      margin: 25px 0 0;
+      color: #8696b0;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    /* Shared sections */
+
+    .section {
+      padding-block: 65px;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      margin-bottom: 9px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(27px, 3.3vw, 36px);
+      line-height: 1.3;
+      letter-spacing: -1px;
+    }
+
+    .section-description {
+      max-width: 700px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .section-heading {
+      margin-bottom: 30px;
+    }
+
+    /* Video */
+
+    .video-panel {
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .video-panel video {
+      display: block;
+      width: 100%;
+      max-height: 590px;
+      background: #040914;
+    }
+
+    .video-caption {
+      padding: 16px 24px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .video-caption strong {
+      color: var(--text);
+    }
+
+    /* Overview */
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+    }
+
+    .panel {
+      padding: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .panel h3 {
+      margin: 0 0 17px;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .panel p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .panel p:last-child {
+      margin-bottom: 0;
+    }
+
+    .contribution {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contribution:first-of-type {
+      padding-top: 0;
+    }
+
+    .contribution:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .contribution-number {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: rgba(105, 185, 255, 0.09);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .contribution strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #e7effc;
+      font-size: 14px;
+    }
+
+    .contribution p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    /* Feature cards */
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(105, 185, 255, 0.4);
+    }
+
+    .feature-number {
+      display: inline-block;
+      margin-bottom: 15px;
+      color: var(--accent);
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      letter-spacing: -0.4px;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.85;
+    }
+
+    /* Workflow cards */
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .flow-item {
+      padding: 25px 21px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+    }
+
+    .flow-number {
+      display: block;
+      margin-bottom: 15px;
+      color: var(--accent);
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .flow-item h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: -0.3px;
+    }
+
+    .flow-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    /* Screenshot galleries */
+
+    .gallery {
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .gallery-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 17px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .gallery-heading {
+      color: #bdcce1;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .gallery-counter {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .gallery-progress {
+      height: 3px;
+      background: rgba(105, 185, 255, 0.1);
+    }
+
+    .gallery-progress-bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #69b9ff, #b9a2ff);
+      transition: width 0.3s ease;
+    }
+
+    .gallery-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 530px;
+      padding: 30px 70px;
+      background:
+        radial-gradient(
+          ellipse at center,
+          #24233f 0%,
+          #0c1528 75%
+        );
+    }
+
+    .gallery-image-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+      min-width: 0;
+      min-height: 440px;
+    }
+
+    /*
+      Preserve screenshot resolution.
+      Small images will not be stretched to fill the gallery.
+    */
+
+    .gallery-image {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 495px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
+    }
+
+    .gallery-image-link[hidden],
+    .image-unavailable[hidden] {
+      display: none;
+    }
+
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      padding: 0;
+      border: 1px solid rgba(174, 195, 225, 0.3);
+      border-radius: 12px;
+      background: rgba(23, 34, 57, 0.94);
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 2;
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .gallery-arrow:hover {
+      background: #263a59;
+      border-color: var(--accent);
+    }
+
+    .gallery-arrow.prev {
+      left: 18px;
+    }
+
+    .gallery-arrow.next {
+      right: 18px;
+    }
+
+    .image-unavailable {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .gallery-info {
+      min-height: 180px;
+      padding: 29px 34px;
+      border-top: 1px solid var(--border);
+    }
+
+    .slide-kicker {
+      margin: 0 0 7px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .slide-heading {
+      margin: 0 0 10px;
+      font-size: 21px;
+      letter-spacing: -0.4px;
+    }
+
+    .slide-description {
+      max-width: 850px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .gallery-bottom {
+      padding: 16px 20px 25px;
+      border-top: 1px solid var(--border);
+    }
+
+    .gallery-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .gallery-dot {
+      width: 11px;
+      height: 11px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #44536c;
+      cursor: pointer;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .gallery-dot:hover {
+      background: #8bcaff;
+    }
+
+    .gallery-dot.active {
+      background: var(--accent);
+      transform: scale(1.2);
+    }
+
+    .gallery-hint {
+      margin: 17px 0 0;
+      color: #8393ac;
+      text-align: center;
+      font-size: 11px;
+    }
+
+    /* System design diagrams */
+
+    .design-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .diagram-card {
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .diagram-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 355px;
+      padding: 12px;
+      background: #f9fafb;
+      border-radius: 12px;
+    }
+
+    .diagram-link img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 335px;
+      object-fit: contain;
+    }
+
+    .diagram-card h3 {
+      margin: 20px 0 8px;
+      font-size: 18px;
+    }
+
+    .diagram-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.85;
+    }
+
+    /* Reflection */
+
+    .reflection {
+      padding: 36px;
+      background: linear-gradient(135deg, #16243d, #241d3e);
+      border: 1px solid rgba(167, 139, 250, 0.23);
+      border-radius: var(--radius);
+    }
+
+    .reflection h3 {
+      margin: 0 0 14px;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+    }
+
+    .reflection p {
+      max-width: 850px;
+      margin: 0;
+      color: #b8c5d9;
+      font-size: 14px;
+      line-height: 1.95;
+    }
+
+    /* Bottom navigation */
+
+    .bottom-navigation {
+      padding: 45px 0 80px;
+      text-align: center;
+    }
+
+    .bottom-navigation p {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* Footer */
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 25px 0 35px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: #8292ad;
+      font-size: 12px;
+    }
+
+    .footer a:hover {
+      color: var(--accent);
+    }
+
+    /* Responsive */
+
+    @media (max-width: 980px) {
+      .project-hero {
+        grid-template-columns: 1fr;
+        gap: 45px;
+        padding-block: 75px;
+      }
+
+      .hero-preview {
+        max-width: 500px;
+        margin-inline: auto;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .flow-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .overview-grid,
+      .design-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-stage {
+        min-height: 450px;
+        padding: 25px 55px;
+      }
+
+      .gallery-image-link {
+        min-height: 350px;
+      }
+
+      .gallery-image {
+        max-height: 420px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: calc(100% - 32px);
+      }
+
+      .nav {
+        min-height: 70px;
+      }
+
+      .brand {
+        font-size: 14px;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+      }
+
+      .back-link {
+        font-size: 12px;
+      }
+
+      .project-hero {
+        padding-block: 60px 55px;
+      }
+
+      .project-title {
+        font-size: 39px;
+        letter-spacing: -1.8px;
+      }
+
+      .project-intro {
+        font-size: 14px;
+      }
+
+      .preview-card {
+        transform: none;
+      }
+
+      .section {
+        padding-block: 48px;
+      }
+
+      .panel,
+      .feature-card {
+        padding: 24px;
+      }
+
+      .features-grid,
+      .flow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-top {
+        padding: 14px 17px;
+      }
+
+      .gallery-stage {
+        min-height: 330px;
+        padding: 20px 40px;
+      }
+
+      .gallery-image-link {
+        min-height: 275px;
+      }
+
+      .gallery-image {
+        max-height: 315px;
+      }
+
+      .gallery-arrow {
+        width: 31px;
+        height: 38px;
+        font-size: 17px;
+      }
+
+      .gallery-arrow.prev {
+        left: 5px;
+      }
+
+      .gallery-arrow.next {
+        right: 5px;
+      }
+
+      .gallery-info {
+        min-height: 205px;
+        padding: 23px 20px;
+      }
+
+      .slide-heading {
+        font-size: 19px;
+      }
+
+      .slide-description {
+        font-size: 13px;
+      }
+
+      .diagram-link {
+        min-height: 335px;
+      }
+
+      .reflection {
+        padding: 27px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+
+  <header class="site-header">
+    <nav class="container nav" aria-label="Main navigation">
+
+      <a href="index.html" class="brand">
+        <span class="brand-mark">R.</span>
+        <span>Rahib Rahman</span>
+      </a>
+
+      <a href="index.html#projects" class="back-link">
+        ← Back to projects
+      </a>
+
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+
+    <section class="container project-hero">
+
+      <div>
+        <div class="eyebrow">
+          University · Final-year project
+        </div>
+
+        <h1 class="project-title">
+          Your<span class="gradient-text">Hired.</span>
+        </h1>
+
+        <p class="project-intro">
+          A web-based rota and employee management system
+          built using Python and Django, bringing shift
+          schedules, holiday requests, shift cover and
+          employee information into one place.
+        </p>
+
+        <p class="project-intro">
+          The idea came from challenges I experienced at
+          work at the time. Checking rotas and pay information
+          meant using different systems, while finding cover
+          for a shift could mean asking a manager to
+          coordinate everything.
+        </p>
+
+        <p class="project-intro">
+          For my final-year project, I explored how a
+          single platform could make these everyday
+          tasks more straightforward for employees
+          and managers.
+        </p>
+
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">Django</span>
+          <span class="tag">HTML &amp; CSS</span>
+          <span class="tag">Database Design</span>
+          <span class="tag">User Roles</span>
+          <span class="tag">Final-Year Project</span>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#demo" class="button">
+            Watch the demo ↓
+          </a>
+
+          <a href="#screenshots" class="button button-secondary">
+            View screenshots
+          </a>
+        </div>
+      </div>
+
+      <!-- Actual screenshot from YourHired -->
+
+      <div class="hero-preview">
+        <div class="preview-card">
+
+          <div class="preview-header">
+            <div class="preview-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <span class="preview-label">
+              YourHired · Employee view
+            </span>
+          </div>
+
+          <a
+            href="images/rota/D19.jpg"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open original YourHired screenshot"
+          >
+            <img
+              src="images/rota/D19.jpg"
+              alt="Actual YourHired application showing My Shifts and Shifts Offered by Other Employees"
+            >
+          </a>
+
+        </div>
+
+        <p class="preview-caption">
+          Actual screenshot from the YourHired application
+        </p>
+      </div>
+
+    </section>
+
+    <!-- Video demonstration -->
+
+    <section class="section" id="demo">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">
+            Project demonstration
+          </div>
+
+          <h2 class="section-title">
+            See the application in action
+          </h2>
+
+          <p class="section-description">
+            A recorded walkthrough of the original university
+            project, demonstrating the employee and manager
+            workflows.
+          </p>
+        </div>
+
+        <div class="video-panel">
+
+          <video
+            controls
+            playsinline
+            preload="metadata"
+            aria-label="YourHired application demonstration"
+          >
+            <source
+              src="images/rota/NOAUDIO.mp4"
+              type="video/mp4"
+            >
+
+            Your browser does not support HTML5 video.
+          </video>
+
+          <div class="video-caption">
+            <strong>YourHired demo.</strong>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Project overview -->
+
+    <section class="section" id="overview">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">
+            Behind the idea
+          </div>
+
+          <h2 class="section-title">
+            About the project
+          </h2>
+
+          <p class="section-description">
+            A practical idea inspired by workplace scheduling,
+            developed as my Computer Science final-year project.
+          </p>
+        </div>
+
+        <div class="overview-grid">
+
+          <article class="panel">
+            <h3>The problem</h3>
+
+            <p>
+              At my workplace at the time, rotas and pay
+              information were managed through separate
+              platforms. Employees had to go to different
+              places to find details they needed.
+            </p>
+
+            <p>
+              Shift cover could be inconvenient too. If
+              someone could not work, they often had to
+              tell a manager, who would then try to find
+              another employee willing to cover.
+            </p>
+
+            <p>
+              I wanted to explore a simpler approach
+              that brought these tasks together.
+            </p>
+          </article>
+
+          <article class="panel">
+            <h3>The solution</h3>
+
+            <div class="contribution">
+              <div class="contribution-number">01</div>
+
+              <div>
+                <strong>Employee self-service</strong>
+
+                <p>
+                  View rotas, request time off and offer
+                  or accept shifts through the website.
+                </p>
+              </div>
+            </div>
+
+            <div class="contribution">
+              <div class="contribution-number">02</div>
+
+              <div>
+                <strong>Manager tools</strong>
+
+                <p>
+                  Create shifts, update employee details
+                  and review holiday requests.
+                </p>
+              </div>
+            </div>
+
+            <div class="contribution">
+              <div class="contribution-number">03</div>
+
+              <div>
+                <strong>One connected application</strong>
+
+                <p>
+                  Bring employee profiles, schedules,
+                  holiday requests and shift offers together.
+                </p>
+              </div>
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Features -->
+
+    <section class="section" id="features">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">
+            Inside the application
+          </div>
+
+          <h2 class="section-title">
+            Key features
+          </h2>
+
+          <p class="section-description">
+            Features developed for the different
+            needs of employees and managers.
+          </p>
+        </div>
+
+        <div class="features-grid">
+
+          <article class="feature-card">
+            <span class="feature-number">
+              01 / EMPLOYEES
+            </span>
+
+            <h3>View Work Rotas</h3>
+
+            <p>
+              Employees can see the shifts assigned
+              to them, including dates and times,
+              from their own account.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">
+              02 / TIME OFF
+            </span>
+
+            <h3>Request Holidays</h3>
+
+            <p>
+              Submit holiday requests and check whether
+              they are pending, approved or denied.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">
+              03 / SHIFT COVER
+            </span>
+
+            <h3>Offer and Accept Shifts</h3>
+
+            <p>
+              Offer an assigned shift to colleagues,
+              or accept a shift another employee
+              has offered.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">
+              04 / MANAGERS
+            </span>
+
+            <h3>Create and Edit Rotas</h3>
+
+            <p>
+              Managers can add and modify shifts
+              when organising employee schedules.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">
+              05 / APPROVALS
+            </span>
+
+            <h3>Manage Time-Off Requests</h3>
+
+            <p>
+              Managers can review requests and approve
+              or deny them, with the status shown
+              in the application.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">
+              06 / STAFF
+            </span>
+
+            <h3>Employee and Pay Details</h3>
+
+            <p>
+              Add new employees and manage information
+              such as positions and pay details.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Shift offering workflow -->
+
+    <section class="section" id="flow">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">
+            How it works
+          </div>
+
+          <h2 class="section-title">
+            A simpler shift-cover process
+          </h2>
+
+          <p class="section-description">
+            One of the main ideas behind YourHired was
+            letting colleagues help arrange shift cover
+            without relying entirely on managers.
+          </p>
+        </div>
+
+        <div class="flow-grid">
+
+          <article class="flow-item">
+            <span class="flow-number">01 →</span>
+
+            <h3>Check Your Rota</h3>
+
+            <p>
+              The employee views their upcoming
+              assigned shifts.
+            </p>
+          </article>
+
+          <article class="flow-item">
+            <span class="flow-number">02 →</span>
+
+            <h3>Offer a Shift</h3>
+
+            <p>
+              If they need cover, they make a shift
+              available to colleagues.
+            </p>
+          </article>
+
+          <article class="flow-item">
+            <span class="flow-number">03 →</span>
+
+            <h3>Browse Offers</h3>
+
+            <p>
+              Other employees can see the shifts
+              that have been offered.
+            </p>
+          </article>
+
+          <article class="flow-item">
+            <span class="flow-number">04 ✓</span>
+
+            <h3>Accept a Shift</h3>
+
+            <p>
+              A colleague can accept a shift
+              they are willing to work.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Application screenshot gallery -->
+
+    <section class="section" id="screenshots">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">
+            Application walkthrough
+          </div>
+
+          <h2 class="section-title">
+            Explore the screenshots
+          </h2>
+
+          <p class="section-description">
+            A closer look at YourHired, showcasing the main features available to employees and managers.
+          </p>
+        </div>
+
+        <div
+          class="gallery js-gallery"
+          data-gallery="application"
+        >
+
+          <div class="gallery-top">
+            <span class="gallery-heading">
+              YourHired · Application
+            </span>
+
+            <span class="gallery-counter" data-counter>
+              01 / 04
+            </span>
+          </div>
+
+          <div class="gallery-progress">
+            <div
+              class="gallery-progress-bar"
+              data-progress
+            ></div>
+          </div>
+
+          <div class="gallery-stage" data-stage>
+
+            <button
+              class="gallery-arrow prev"
+              type="button"
+              data-prev
+              aria-label="Previous screenshot"
+            >
+              &#8592;
+            </button>
+
+            <a
+              class="gallery-image-link"
+              data-link
+              href="images/rota/D14.png"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open screenshot at original resolution"
+            >
+              <img
+                class="gallery-image"
+                data-image
+                src="images/rota/D14.png"
+                alt="YourHired manager holiday requests table"
+              >
+            </a>
+
+            <p
+              class="image-unavailable"
+              data-unavailable
+              hidden
+            >
+              Screenshot could not be loaded.
+            </p>
+
+            <button
+              class="gallery-arrow next"
+              type="button"
+              data-next
+              aria-label="Next screenshot"
+            >
+              &#8594;
+            </button>
+
+          </div>
+
+          <div class="gallery-info" aria-live="polite">
+            <p class="slide-kicker" data-kicker>
+              Screenshot 01
+            </p>
+
+            <h3 class="slide-heading" data-title>
+              Managing holiday requests
+            </h3>
+
+            <p class="slide-description" data-description>
+              Managers can review requests and
+              approve or deny pending holidays.
+            </p>
+          </div>
+
+          <div class="gallery-bottom">
+            <div
+              class="gallery-dots"
+              data-dots
+              role="group"
+              aria-label="Choose application screenshot"
+            ></div>
+
+            <p class="gallery-hint">
+              Use the arrows or dots to browse.
+              Click a screenshot to open the original image.
+              Smaller images are not stretched.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- System design -->
+
+    <section class="section" id="design">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">
+            Planning and design
+          </div>
+
+          <h2 class="section-title">
+            System design
+          </h2>
+
+          <p class="section-description">
+            Two diagrams from my original university
+            project documentation.
+          </p>
+        </div>
+
+        <div class="design-grid">
+
+          <article class="diagram-card">
+
+            <a
+              class="diagram-link"
+              href="images/rota/D24.jpg"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open full-size entity relationship diagram"
+            >
+              <img
+                src="images/rota/D24.jpg"
+                alt="Entity relationship diagram of User, Profile, Shift, Shift Swap and Holiday"
+                loading="lazy"
+              >
+            </a>
+
+            <h3>Entity Relationship Diagram</h3>
+
+            <p>
+              Shows the entities and relationships used
+              to model users, employee profiles, shifts,
+              shift swaps and holidays.
+            </p>
+
+          </article>
+
+          <article class="diagram-card">
+
+            <a
+              class="diagram-link"
+              href="images/rota/D25.jpg"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open full-size use case diagram"
+            >
+              <img
+                src="images/rota/D25.jpg"
+                alt="Use case diagram showing manager and employee interactions"
+                loading="lazy"
+              >
+            </a>
+
+            <h3>Use Case Diagram</h3>
+
+            <p>
+              Outlines the main tasks available to
+              managers and employees, from rota management
+              to holiday requests and shift swaps.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Django code gallery -->
+
+    <section class="section" id="code">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">
+            Behind the scenes
+          </div>
+
+          <h2 class="section-title">
+            A look at the Django code
+          </h2>
+
+          <p class="section-description">
+            Forms, views and templates from the
+            implementation, including employee management,
+            holiday requests and shift offers.
+          </p>
+        </div>
+
+        <div
+          class="gallery js-gallery"
+          data-gallery="code"
+        >
+
+          <div class="gallery-top">
+            <span class="gallery-heading">
+              YourHired · Django implementation
+            </span>
+
+            <span class="gallery-counter" data-counter>
+              01 / 10
+            </span>
+          </div>
+
+          <div class="gallery-progress">
+            <div
+              class="gallery-progress-bar"
+              data-progress
+            ></div>
+          </div>
+
+          <div class="gallery-stage" data-stage>
+
+            <button
+              class="gallery-arrow prev"
+              type="button"
+              data-prev
+              aria-label="Previous code screenshot"
+            >
+              &#8592;
+            </button>
+
+            <a
+              class="gallery-image-link"
+              data-link
+              href="images/rota/D1.png"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open original code screenshot"
+            >
+              <img
+                class="gallery-image"
+                data-image
+                src="images/rota/D1.png"
+                alt="Django AddShiftForm code"
+                loading="lazy"
+              >
+            </a>
+
+            <p
+              class="image-unavailable"
+              data-unavailable
+              hidden
+            >
+              Screenshot could not be loaded.
+            </p>
+
+            <button
+              class="gallery-arrow next"
+              type="button"
+              data-next
+              aria-label="Next code screenshot"
+            >
+              &#8594;
+            </button>
+
+          </div>
+
+          <div class="gallery-info" aria-live="polite">
+
+            <p class="slide-kicker" data-kicker>
+              Screenshot 01
+            </p>
+
+            <h3 class="slide-heading" data-title>
+              Creating shifts with a form
+            </h3>
+
+            <p class="slide-description" data-description>
+              Django form used to collect shift details.
+            </p>
+
+          </div>
+
+          <div class="gallery-bottom">
+            <div
+              class="gallery-dots"
+              data-dots
+              role="group"
+              aria-label="Choose code screenshot"
+            ></div>
+
+            <p class="gallery-hint">
+              Click a code screenshot to open
+              the original image for a closer look.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Reflection -->
+
+    <section class="section" id="reflection">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">
+            Looking back
+          </div>
+
+          <h2 class="section-title">
+            What I learned
+          </h2>
+        </div>
+
+        <div class="reflection">
+          <h3>
+            Learning Django through a real problem
+          </h3>
+
+          <p>
+            YourHired was my first project using Django
+            and Python as a web backend. It pushed me
+            to learn about models, forms, views and
+            templates while developing a system with
+            different types of users.
+
+            I gained experience translating workplace
+            problems into features, designing related
+            data and connecting frontend interactions
+            to backend logic.
+
+            The project was built for university,
+            rather than deployed as a production
+            workplace system.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Return to projects -->
+
+    <section class="bottom-navigation">
+      <div class="container">
+
+        <p>Want to see more of my projects?</p>
+
+        <a href="index.html#projects" class="button">
+          ← Explore more projects
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+
+  <footer class="footer">
+    <div class="container footer-content">
+
+      <span>
+        © <span id="year">2026</span> Rahib Rahman
+      </span>
+
+      <span>
+        Built with HTML, CSS and curiosity.
+      </span>
+
+      <a href="index.html">
+        Back to homepage ↑
+      </a>
+
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+
+  <script>
+    // Screenshot information for the two galleries.
+
+    const galleries = {
+
+      application: [
+        {
+          image: "images/rota/D14.png",
+          title: "Manager holiday requests",
+          description:
+            "The manager-facing page lists holiday requests with approved, denied and pending statuses. Pending requests have Approve and Deny controls.",
+          alt:
+            "Manager holiday requests table with statuses and approval buttons"
+        },
+        {
+          image: "images/rota/D18.jpg",
+          title: "Employee holiday requests",
+          description:
+            "Employees can submit a date range for time off and view requests they've already made, including a pending request.",
+          alt:
+            "Employee holiday page showing a pending holiday request"
+        },
+        {
+          image: "images/rota/D19.jpg",
+          title: "Offering and accepting shifts",
+          description:
+            "Employees can view their own shifts and shifts offered by colleagues, with options to offer or accept a shift.",
+          alt:
+            "My Shifts and Shifts Offered by Other Employees interface"
+        },
+        {
+          image: "images/rota/D23.jpg",
+          title: "Manager page access restriction",
+          description:
+            "The application displays an unauthorised access message when a user without the manager role opens the manager request page.",
+          alt:
+            "YourHired unauthorised access message on manager-only page"
+        }
+      ],
+
+      code: [
+        {
+          image: "images/rota/D1.png",
+          title: "Shift creation form",
+          description:
+            "The AddShiftForm captures the information needed to create a shift.",
+          alt: "Django AddShiftForm source code"
+        },
+        {
+          image: "images/rota/D2.png",
+          title: "Adding a shift",
+          description:
+            "The addShift view handles the shift creation workflow.",
+          alt: "Django addShift view source code"
+        },
+        {
+          image: "images/rota/D3.png",
+          title: "Editing employee details",
+          description:
+            "EmployeeEditForm provides fields for updating employee information.",
+          alt: "Django EmployeeEditForm source code"
+        },
+        {
+          image: "images/rota/D4.png",
+          title: "Managing employees",
+          description:
+            "The manageEmployees view supports updates to employee records.",
+          alt: "Django manageEmployees view source code"
+        },
+        {
+          image: "images/rota/D5.png",
+          title: "Holiday request form",
+          description:
+            "HolidayRequestForm collects a request for time off.",
+          alt: "Django HolidayRequestForm source code"
+        },
+        {
+          image: "images/rota/D6.png",
+          title: "Submitting a holiday request",
+          description:
+            "The holidayRequest view processes the employee's submission.",
+          alt: "Django holidayRequest view source code"
+        },
+        {
+          image: "images/rota/D7.png",
+          title: "Holiday approvals",
+          description:
+            "The manageRequests view handles manager decisions about holiday requests.",
+          alt: "Django manageRequests view source code"
+        },
+        {
+          image: "images/rota/D8.png",
+          title: "Shift offering logic",
+          description:
+            "The shiftOffer view supports offering and accepting shifts.",
+          alt: "Django shiftOffer view source code"
+        },
+        {
+          image: "images/rota/D9.png",
+          title: "Shift offer template",
+          description:
+            "The HTML template displays employee shifts and offers from other colleagues.",
+          alt: "Django shift offering HTML template"
+        },
+        {
+          image: "images/rota/D10.png",
+          title: "Creating employee records",
+          description:
+            "The addEmp view supports registering a new employee.",
+          alt: "Django addEmp view source code"
+        }
+      ]
+    };
+
+    // Set up each gallery independently.
+
+    document.querySelectorAll(".js-gallery").forEach((gallery) => {
+
+      const slides = galleries[gallery.dataset.gallery];
+
+      const image =
+        gallery.querySelector("[data-image]");
+
+      const link =
+        gallery.querySelector("[data-link]");
+
+      const missing =
+        gallery.querySelector("[data-unavailable]");
+
+      const title =
+        gallery.querySelector("[data-title]");
+
+      const description =
+        gallery.querySelector("[data-description]");
+
+      const kicker =
+        gallery.querySelector("[data-kicker]");
+
+      const counter =
+        gallery.querySelector("[data-counter]");
+
+      const progress =
+        gallery.querySelector("[data-progress]");
+
+      const dotsContainer =
+        gallery.querySelector("[data-dots]");
+
+      const previous =
+        gallery.querySelector("[data-prev]");
+
+      const next =
+        gallery.querySelector("[data-next]");
+
+      const stage =
+        gallery.querySelector("[data-stage]");
+
+      let index = 0;
+      let touchStartX = null;
+
+      // Create navigation dots.
+
+      const dots = slides.map((slide, i) => {
+        const dot = document.createElement("button");
+
+        dot.type = "button";
+        dot.className = "gallery-dot";
+
+        dot.setAttribute(
+          "aria-label",
+          `Show screenshot ${i + 1}: ${slide.title}`
+        );
+
+        dot.addEventListener("click", () => {
+          show(i);
+        });
+
+        dotsContainer.appendChild(dot);
+
+        return dot;
+      });
+
+      // Display the selected screenshot.
+
+      function show(i) {
+        index = (i + slides.length) % slides.length;
+
+        const slide = slides[index];
+
+        link.hidden = false;
+        missing.hidden = true;
+
+        image.src = slide.image;
+        image.alt = slide.alt;
+        link.href = slide.image;
+
+        title.textContent = slide.title;
+        description.textContent = slide.description;
+
+        kicker.textContent =
+          `Screenshot ${String(index + 1).padStart(2, "0")}`;
+
+        counter.textContent =
+          `${String(index + 1).padStart(2, "0")} / ` +
+          `${String(slides.length).padStart(2, "0")}`;
+
+        progress.style.width =
+          `${((index + 1) / slides.length) * 100}%`;
+
+        dots.forEach((dot, dotIndex) => {
+          const active = dotIndex === index;
+
+          dot.classList.toggle("active", active);
+
+          dot.setAttribute(
+            "aria-pressed",
+            String(active)
+          );
+        });
+      }
+
+      // Handle missing screenshots.
+
+      image.addEventListener("error", () => {
+        link.hidden = true;
+        missing.hidden = false;
+      });
+
+      // Gallery arrows.
+
+      previous.addEventListener("click", () => {
+        show(index - 1);
+      });
+
+      next.addEventListener("click", () => {
+        show(index + 1);
+      });
+
+      // Keyboard navigation.
+
+      gallery.addEventListener("keydown", (event) => {
+        if (!["ArrowLeft", "ArrowRight"].includes(event.key)) {
+          return;
+        }
+
+        if (!gallery.contains(document.activeElement)) {
+          return;
+        }
+
+        event.preventDefault();
+
+        show(
+          index + (event.key === "ArrowRight" ? 1 : -1)
+        );
+      });
+
+      // Mobile swipe navigation.
+
+      stage.addEventListener(
+        "touchstart",
+        (event) => {
+          touchStartX =
+            event.changedTouches[0].screenX;
+        },
+        { passive: true }
+      );
+
+      stage.addEventListener(
+        "touchend",
+        (event) => {
+          if (touchStartX === null) {
+            return;
+          }
+
+          const distance =
+            event.changedTouches[0].screenX - touchStartX;
+
+          if (Math.abs(distance) > 50) {
+            show(
+              index + (distance < 0 ? 1 : -1)
+            );
+          }
+
+          touchStartX = null;
+        },
+        { passive: true }
+      );
+
+      // Show first screenshot.
+
+      show(0);
+    });
+
+    // Current year in footer.
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+</html>

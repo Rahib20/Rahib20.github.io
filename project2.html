@@ -1,0 +1,1740 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta
+    name="description"
+    content="Explore Rahib Rahman's Role-Play Language Learning application, a university group project featuring interactive scenarios, language levels and database-backed conversation prompts."
+  />
+
+  <title>Role-Play Language Learning | Rahib Rahman</title>
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --surface: #111a2e;
+      --surface-2: #172239;
+      --text: #f1f5fb;
+      --muted: #a0aec4;
+      --accent: #69b9ff;
+      --accent-2: #a78bfa;
+      --border: rgba(174, 195, 225, 0.13);
+      --radius: 20px;
+      --max-width: 1100px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 95px;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 750px;
+      background:
+        radial-gradient(
+          ellipse at 75% 15%,
+          rgba(167, 139, 250, 0.14),
+          transparent 48%
+        ),
+        radial-gradient(
+          ellipse at 15% 30%,
+          rgba(105, 185, 255, 0.09),
+          transparent 43%
+        );
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #08101e;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 44px));
+      margin-inline: auto;
+    }
+
+    /* Navigation */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 16, 32, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #69b9ff, #b39aff);
+      color: #091224;
+      border-radius: 12px;
+      font-size: 19px;
+      font-weight: 850;
+    }
+
+    .back-link {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent);
+    }
+
+    /* Buttons */
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 47px;
+      padding: 11px 20px;
+      border-radius: 11px;
+      background: var(--accent);
+      color: #071326;
+      font-size: 14px;
+      font-weight: 700;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .button:hover {
+      background: #95ceff;
+      transform: translateY(-2px);
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: white;
+    }
+
+    .button-secondary:hover {
+      background: var(--surface-2);
+    }
+
+    /* Hero */
+
+    .project-hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 70px;
+      padding-block: 95px 85px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 15px rgba(105, 185, 255, 0.6);
+    }
+
+    .project-title {
+      margin: 0 0 24px;
+      font-size: clamp(38px, 4.6vw, 60px);
+      line-height: 1.14;
+      letter-spacing: -2.5px;
+      font-weight: 800;
+    }
+
+    .gradient-text {
+      background: linear-gradient(105deg, #69b9ff, #b9a2ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .project-intro {
+      max-width: 650px;
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin: 25px 0 30px;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      background: rgba(151, 177, 210, 0.08);
+      border: 1px solid var(--border);
+      color: #b6c8df;
+      border-radius: 7px;
+      font-size: 12px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Hero: actual application screenshot */
+
+    .hero-preview {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-preview::before {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 400px;
+      top: 50px;
+      background: rgba(167, 139, 250, 0.22);
+      filter: blur(90px);
+      pointer-events: none;
+    }
+
+    .preview-card {
+      position: relative;
+      width: min(100%, 315px);
+      padding: 14px;
+      background: linear-gradient(145deg, #26304d, #121b32);
+      border: 1px solid rgba(167, 139, 250, 0.3);
+      border-radius: 25px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+      transform: rotate(2deg);
+    }
+
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 13px;
+      gap: 12px;
+    }
+
+    .preview-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .preview-dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #64748b;
+    }
+
+    .preview-dots span:first-child {
+      background: #a78bfa;
+    }
+
+    .preview-label {
+      color: #a9b8d2;
+      font-size: 10px;
+      font-weight: 650;
+    }
+
+    .preview-card img {
+      width: 100%;
+      max-height: 455px;
+      object-fit: contain;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .preview-caption {
+      margin: 25px 0 0;
+      color: #8696b0;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    /* Shared section styles */
+
+    .section {
+      padding-block: 65px;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      margin-bottom: 9px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(27px, 3.3vw, 36px);
+      line-height: 1.3;
+      letter-spacing: -1px;
+    }
+
+    .section-description {
+      max-width: 700px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .section-heading {
+      margin-bottom: 30px;
+    }
+
+    /* Overview */
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+    }
+
+    .panel {
+      padding: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .panel h3 {
+      margin: 0 0 17px;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .panel p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .panel p:last-child {
+      margin-bottom: 0;
+    }
+
+    .contribution {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contribution:first-of-type {
+      padding-top: 0;
+    }
+
+    .contribution:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .contribution-number {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: rgba(105, 185, 255, 0.09);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .contribution strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #e7effc;
+      font-size: 14px;
+    }
+
+    .contribution p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    /* Features */
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(105, 185, 255, 0.4);
+    }
+
+    .feature-number {
+      display: inline-block;
+      margin-bottom: 15px;
+      color: var(--accent);
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      letter-spacing: -0.4px;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.85;
+    }
+
+    /* Screenshot gallery */
+
+    .gallery {
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .gallery-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 17px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .gallery-heading {
+      color: #bdcce1;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .gallery-counter {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .gallery-progress {
+      height: 3px;
+      background: rgba(105, 185, 255, 0.1);
+    }
+
+    .gallery-progress-bar {
+      height: 100%;
+      width: 10%;
+      background: linear-gradient(90deg, #69b9ff, #b9a2ff);
+      transition: width 0.3s ease;
+    }
+
+    .gallery-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 620px;
+      padding: 30px 70px;
+      background:
+        radial-gradient(
+          ellipse at center,
+          #24233f 0%,
+          #0c1528 75%
+        );
+    }
+
+    .gallery-image-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+      min-width: 0;
+      min-height: 500px;
+    }
+
+    .gallery-image {
+      width: auto;
+      max-width: 100%;
+      max-height: 555px;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
+    }
+
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      padding: 0;
+      border: 1px solid rgba(174, 195, 225, 0.3);
+      border-radius: 12px;
+      background: rgba(23, 34, 57, 0.94);
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 2;
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .gallery-arrow:hover {
+      background: #263a59;
+      border-color: var(--accent);
+    }
+
+    .gallery-arrow.prev {
+      left: 18px;
+    }
+
+    .gallery-arrow.next {
+      right: 18px;
+    }
+
+    .image-unavailable {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .image-unavailable[hidden] {
+      display: none;
+    }
+
+    .gallery-info {
+      min-height: 180px;
+      padding: 29px 34px;
+      border-top: 1px solid var(--border);
+    }
+
+    .slide-kicker {
+      margin: 0 0 7px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .slide-heading {
+      margin: 0 0 10px;
+      font-size: 21px;
+      letter-spacing: -0.4px;
+    }
+
+    .slide-description {
+      max-width: 850px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .gallery-bottom {
+      padding: 16px 20px 25px;
+      border-top: 1px solid var(--border);
+    }
+
+    .gallery-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .gallery-dot {
+      width: 11px;
+      height: 11px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #44536c;
+      cursor: pointer;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .gallery-dot:hover {
+      background: #8bcaff;
+    }
+
+    .gallery-dot.active {
+      background: var(--accent);
+      transform: scale(1.2);
+    }
+
+    .gallery-hint {
+      margin: 17px 0 0;
+      color: #8393ac;
+      text-align: center;
+      font-size: 11px;
+    }
+
+    /* Learning flow */
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .flow-item {
+      position: relative;
+      padding: 25px 21px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+    }
+
+    .flow-number {
+      display: block;
+      margin-bottom: 15px;
+      color: var(--accent);
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .flow-item h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: -0.3px;
+    }
+
+    .flow-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    /* Reflection */
+
+    .reflection {
+      padding: 36px;
+      background: linear-gradient(135deg, #16243d, #241d3e);
+      border: 1px solid rgba(167, 139, 250, 0.23);
+      border-radius: var(--radius);
+    }
+
+    .reflection h3 {
+      margin: 0 0 14px;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+    }
+
+    .reflection p {
+      max-width: 850px;
+      margin: 0;
+      color: #b8c5d9;
+      font-size: 14px;
+      line-height: 1.95;
+    }
+
+    /* Bottom navigation */
+
+    .bottom-navigation {
+      padding: 45px 0 80px;
+      text-align: center;
+    }
+
+    .bottom-navigation p {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* Footer */
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 25px 0 35px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: #8292ad;
+      font-size: 12px;
+    }
+
+    .footer a:hover {
+      color: var(--accent);
+    }
+
+    /* Responsive */
+
+    @media (max-width: 980px) {
+      .project-hero {
+        grid-template-columns: 1fr;
+        gap: 45px;
+        padding-block: 75px;
+      }
+
+      .hero-preview {
+        max-width: 450px;
+        margin-inline: auto;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .flow-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .overview-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-stage {
+        min-height: 510px;
+        padding: 25px 55px;
+      }
+
+      .gallery-image-link {
+        min-height: 430px;
+      }
+
+      .gallery-image {
+        max-height: 450px;
+      }
+
+      .gallery-info {
+        min-height: 205px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: calc(100% - 32px);
+      }
+
+      .nav {
+        min-height: 70px;
+      }
+
+      .brand {
+        font-size: 14px;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+      }
+
+      .back-link {
+        font-size: 12px;
+      }
+
+      .project-hero {
+        padding-block: 60px 55px;
+      }
+
+      .project-title {
+        font-size: 39px;
+        letter-spacing: -1.8px;
+      }
+
+      .project-intro {
+        font-size: 14px;
+      }
+
+      .preview-card {
+        transform: none;
+      }
+
+      .section {
+        padding-block: 48px;
+      }
+
+      .panel,
+      .feature-card {
+        padding: 24px;
+      }
+
+      .features-grid,
+      .flow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-top {
+        padding: 14px 17px;
+      }
+
+      .gallery-stage {
+        min-height: 395px;
+        padding: 20px 40px;
+      }
+
+      .gallery-image-link {
+        min-height: 330px;
+      }
+
+      .gallery-image {
+        max-height: 350px;
+      }
+
+      .gallery-arrow {
+        width: 31px;
+        height: 38px;
+        font-size: 17px;
+      }
+
+      .gallery-arrow.prev {
+        left: 5px;
+      }
+
+      .gallery-arrow.next {
+        right: 5px;
+      }
+
+      .gallery-info {
+        min-height: 235px;
+        padding: 23px 20px;
+      }
+
+      .slide-heading {
+        font-size: 19px;
+      }
+
+      .slide-description {
+        font-size: 13px;
+      }
+
+      .reflection {
+        padding: 27px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <nav class="container nav" aria-label="Main navigation">
+
+      <a href="index.html" class="brand">
+        <span class="brand-mark">R.</span>
+        <span>Rahib Rahman</span>
+      </a>
+
+      <a href="index.html#projects" class="back-link">
+        ← Back to projects
+      </a>
+
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="container project-hero">
+
+      <div>
+        <div class="eyebrow">
+          University · Group project
+        </div>
+
+        <h1 class="project-title">
+          Role-Play<br />
+          <span class="gradient-text">Language Learning.</span>
+        </h1>
+
+        <p class="project-intro">
+          A university group project exploring how
+          interactive role-playing scenarios can make
+          language practice more engaging and practical.
+        </p>
+
+        <p class="project-intro">
+          The application allows users to choose their
+          language level, explore different contexts,
+          select conversation roles and work through
+          guided scenarios with hints and translations.
+        </p>
+
+        <p class="project-intro">
+          My main contributions were designing the database
+          structure, implementing the retrieval of conversation
+          prompts and supporting the wider development team.
+        </p>
+
+        <div class="tags">
+          <span class="tag">Language Learning</span>
+          <span class="tag">Database Design</span>
+          <span class="tag">Conversation Prompts</span>
+          <span class="tag">Role-Playing</span>
+          <span class="tag">Team Project</span>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#screenshots" class="button">
+            Explore the application ↓
+          </a>
+
+          <a href="#overview" class="button button-secondary">
+            About the project
+          </a>
+        </div>
+      </div>
+
+      <!-- Actual application screenshot -->
+      <div class="hero-preview">
+
+        <div class="preview-card">
+          <div class="preview-header">
+            <div class="preview-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <span class="preview-label">
+              Language Learning App
+            </span>
+          </div>
+
+          <img
+            src="images/language/L5.webp"
+            alt="Language learning app showing a directions scenario and role selection"
+          />
+        </div>
+
+        <p class="preview-caption">
+          Actual screenshot from the language-learning application
+        </p>
+
+      </div>
+    </section>
+
+    <!-- Project overview -->
+    <section class="section" id="overview">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">Behind the idea</div>
+          <h2 class="section-title">About the project</h2>
+
+          <p class="section-description">
+            Building a language-learning experience
+            around interaction rather than just memorisation.
+          </p>
+        </div>
+
+        <div class="overview-grid">
+
+          <article class="panel">
+            <h3>The concept</h3>
+
+            <p>
+              Learning a language involves understanding
+              how to communicate in different situations,
+              not just remembering individual words.
+            </p>
+
+            <p>
+              Our group explored a role-play approach
+              where users could choose a learning level
+              and practise conversations based on
+              different everyday contexts.
+            </p>
+
+            <p>
+              For example, a user can select a scenario
+              involving asking for directions, choose
+              a role and then progress through a
+              conversation task.
+            </p>
+
+            <p>
+              The interface also includes help features,
+              such as hints and translations, to support
+              users while they complete the activity.
+            </p>
+          </article>
+
+          <article class="panel">
+            <h3>My contributions</h3>
+
+            <div class="contribution">
+              <div class="contribution-number">01</div>
+              <div>
+                <strong>Database design</strong>
+                <p>
+                  Worked on the database structure
+                  for storing and organising project data.
+                </p>
+              </div>
+            </div>
+
+            <div class="contribution">
+              <div class="contribution-number">02</div>
+              <div>
+                <strong>Conversation prompts</strong>
+                <p>
+                  Implemented functionality to retrieve
+                  prompts from the database for use
+                  within the learning activities.
+                </p>
+              </div>
+            </div>
+
+            <div class="contribution">
+              <div class="contribution-number">03</div>
+              <div>
+                <strong>Collaborative development</strong>
+                <p>
+                  Worked alongside teammates and supported
+                  development tasks across the project.
+                </p>
+              </div>
+            </div>
+
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Application features -->
+    <section class="section" id="features">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">Inside the application</div>
+          <h2 class="section-title">Key features</h2>
+
+          <p class="section-description">
+            The main features demonstrated in
+            the application's interface.
+          </p>
+        </div>
+
+        <div class="features-grid">
+
+          <article class="feature-card">
+            <span class="feature-number">01 / LEVELS</span>
+
+            <h3>Choose a Learning Level</h3>
+
+            <p>
+              Users can select from four levels:
+              A1, A2, B1 and B2, giving them
+              different options for their
+              language-learning activities.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">02 / CONTEXT</span>
+
+            <h3>Context Selection</h3>
+
+            <p>
+              Users can search for tasks based on
+              contexts such as introductions or
+              asking and giving directions.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">03 / FUNCTIONS</span>
+
+            <h3>Language Functions</h3>
+
+            <p>
+              The application provides options
+              for selecting language functions,
+              allowing users to find activities
+              focused on particular types of
+              communication.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">04 / ROLES</span>
+
+            <h3>Role Selection</h3>
+
+            <p>
+              Users choose between Role A and
+              Role B before beginning a scenario.
+              The interface also displays a
+              validation message if no role
+              has been selected.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">05 / PRACTICE</span>
+
+            <h3>Interactive Role-Playing</h3>
+
+            <p>
+              Users move through a guided
+              conversation one prompt at a time.
+              A progress indicator shows
+              how far they have moved
+              through the activity.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">06 / SUPPORT</span>
+
+            <h3>Hints &amp; Translations</h3>
+
+            <p>
+              The interface provides help
+              options during activities,
+              including a hint button and
+              translation-related pop-ups.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Learning flow -->
+    <section class="section" id="flow">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">How it works</div>
+          <h2 class="section-title">A typical learning session</h2>
+
+          <p class="section-description">
+            From selecting a task to completing
+            a role-play conversation.
+          </p>
+        </div>
+
+        <div class="flow-grid">
+
+          <article class="flow-item">
+            <span class="flow-number">01 →</span>
+
+            <h3>Choose a Task</h3>
+
+            <p>
+              Search by context, language
+              level or language function
+              to find an activity.
+            </p>
+          </article>
+
+          <article class="flow-item">
+            <span class="flow-number">02 →</span>
+
+            <h3>Select a Role</h3>
+
+            <p>
+              Choose the conversation
+              context or sub-context,
+              then select Role A or B.
+            </p>
+          </article>
+
+          <article class="flow-item">
+            <span class="flow-number">03 →</span>
+
+            <h3>Complete the Conversation</h3>
+
+            <p>
+              Move through the prompts
+              and use the available help
+              features when needed.
+            </p>
+          </article>
+
+          <article class="flow-item">
+            <span class="flow-number">04 ✓</span>
+
+            <h3>Finish the Activity</h3>
+
+            <p>
+              Continue through the task
+              until the application
+              displays the end-of-role-play
+              message.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Screenshot gallery -->
+    <section class="section" id="screenshots">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">Application walkthrough</div>
+          <h2 class="section-title">Explore the screenshots</h2>
+
+          <p class="section-description">
+            A closer look at the actual application,
+            including task selection, role-playing,
+            validation and translation support.
+          </p>
+        </div>
+
+        <div class="gallery" id="projectGallery">
+
+          <div class="gallery-top">
+            <span class="gallery-heading">
+              Language Learning App
+            </span>
+
+            <span
+              class="gallery-counter"
+              id="slideCounter"
+            >
+              01 / 10
+            </span>
+          </div>
+
+          <div class="gallery-progress">
+            <div
+              class="gallery-progress-bar"
+              id="slideProgress"
+            ></div>
+          </div>
+
+          <div class="gallery-stage" id="galleryStage">
+
+            <button
+              class="gallery-arrow prev"
+              id="prevSlide"
+              type="button"
+              aria-label="Previous screenshot"
+            >
+              &#8592;
+            </button>
+
+            <a
+              id="slideLink"
+              class="gallery-image-link"
+              href="images/language/L1.webp"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open current screenshot in a new tab"
+            >
+              <img
+                class="gallery-image"
+                id="slideImage"
+                src="images/language/L1.webp"
+                alt="Language learning task search screen"
+              />
+            </a>
+
+            <p
+              class="image-unavailable"
+              id="imageUnavailable"
+              hidden
+            >
+              This screenshot could not be loaded.
+            </p>
+
+            <button
+              class="gallery-arrow next"
+              id="nextSlide"
+              type="button"
+              aria-label="Next screenshot"
+            >
+              &#8594;
+            </button>
+
+          </div>
+
+          <div class="gallery-info" aria-live="polite">
+
+            <p class="slide-kicker" id="slideKicker">
+              Screenshot 01
+            </p>
+
+            <h3 class="slide-heading" id="slideTitle">
+              Search for a Task
+            </h3>
+
+            <p class="slide-description" id="slideDescription">
+              The main learning screen allows users
+              to search for activities by context,
+              language level or language function.
+            </p>
+
+          </div>
+
+          <div class="gallery-bottom">
+
+            <div
+              class="gallery-dots"
+              id="galleryDots"
+              role="group"
+              aria-label="Choose screenshot"
+            ></div>
+
+            <p class="gallery-hint">
+              Use the arrows or dots to browse all
+              10 screenshots. Click an image to
+              view it separately.
+            </p>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Reflection -->
+    <section class="section">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">Looking back</div>
+          <h2 class="section-title">What I learned</h2>
+        </div>
+
+        <div class="reflection">
+          <h3>Creating an interactive learning experience</h3>
+
+          <p>
+            This project gave me experience working
+            collaboratively on an application with
+            several connected features. My work on
+            database design and retrieving conversation
+            prompts helped me understand how structured
+            data can support an interactive user
+            experience. I also gained experience
+            communicating with teammates, contributing
+            to shared development tasks and thinking
+            about how users move through an application.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Return to projects -->
+    <section class="bottom-navigation">
+      <div class="container">
+
+        <p>Want to see more of my projects?</p>
+
+        <a href="index.html#projects" class="button">
+          ← Explore more projects
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+
+      <span>
+        © <span id="year">2026</span> Rahib Rahman
+      </span>
+
+      <span>
+        Built with HTML, CSS and curiosity.
+      </span>
+
+      <a href="index.html">
+        Back to homepage ↑
+      </a>
+
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // The ten actual application screenshots,
+    // with descriptions based on their contents.
+
+    const slides = [
+      {
+        image: "images/language/L1.webp",
+        title: "Search for a Task",
+        description:
+          "The main learning screen allows users to search for activities using three options: Context, Level and Language Function. This is the starting point for finding a role-play activity.",
+        alt: "Language learning app showing search options for context, level and language function"
+      },
+      {
+        image: "images/language/L2.webp",
+        title: "Select a Learning Level",
+        description:
+          "Users can select from four language levels: A1, A2, B1 and B2. These options allow them to choose the level they want to work with.",
+        alt: "Language learning app showing A1, A2, B1 and B2 level selection buttons"
+      },
+      {
+        image: "images/language/L3.webp",
+        title: "Search by Context",
+        description:
+          "The context search screen provides a dropdown for selecting the type of conversation. In this example, the selected context is Introductions.",
+        alt: "Language learning app context selection with Introductions selected"
+      },
+      {
+        image: "images/language/L4.webp",
+        title: "Choose a Language Function",
+        description:
+          "Users can select a language function from a dropdown, such as the present-simple question shown here. They can also choose Role A or Role B before continuing.",
+        alt: "Language function selection screen with dropdown and Role A or Role B options"
+      },
+      {
+        image: "images/language/L5.webp",
+        title: "Choose a Role-Play Scenario",
+        description:
+          "This screen shows the Asking and Giving Directions activity. Users can select a sub-context, such as Delivery Driver, and choose whether to take Role A or Role B in the conversation.",
+        alt: "Asking and giving directions screen with Delivery Driver scenario and role selection"
+      },
+      {
+        image: "images/language/L6.webp",
+        title: "Role Selection Validation",
+        description:
+          "If the user attempts to continue without choosing a role, the application displays a validation message asking them to select one. This helps prevent incomplete task setup.",
+        alt: "Language learning app displaying Please select a role validation message"
+      },
+      {
+        image: "images/language/L7.webp",
+        title: "Beginning a Conversation",
+        description:
+          "The role-play activity displays conversation prompts one at a time. This example begins with a character introducing themselves. A Next button and progress bar help users move through the task.",
+        alt: "Role-play task showing Hello, my name is Danielle with Next button and progress bar"
+      },
+      {
+        image: "images/language/L8.webp",
+        title: "Working Through the Role-Play",
+        description:
+          "As the activity continues, users receive additional conversation prompts. This screen shows a request to repeat something, alongside a Hint button that can provide extra support.",
+        alt: "Role-play task asking for repetition and showing a Hint button"
+      },
+      {
+        image: "images/language/L9.webp",
+        title: "Translation Support",
+        description:
+          "The application can display a language-help message during a task. Here, a pop-up shows the Spanish word repetir, associated with the conversation about repeating something.",
+        alt: "Language learning task displaying a pop-up with the Spanish word repetir"
+      },
+      {
+        image: "images/language/L10.webp",
+        title: "Completing the Role-Play",
+        description:
+          "After progressing through the conversation, the application displays an End of Role Play message. The progress indicator is filled, showing that the activity has reached its final step.",
+        alt: "Completed role-play task displaying End Of Role Play message"
+      }
+    ];
+
+    // Gallery elements
+    const slideImage =
+      document.getElementById("slideImage");
+
+    const slideLink =
+      document.getElementById("slideLink");
+
+    const slideTitle =
+      document.getElementById("slideTitle");
+
+    const slideDescription =
+      document.getElementById("slideDescription");
+
+    const slideKicker =
+      document.getElementById("slideKicker");
+
+    const slideCounter =
+      document.getElementById("slideCounter");
+
+    const slideProgress =
+      document.getElementById("slideProgress");
+
+    const galleryDots =
+      document.getElementById("galleryDots");
+
+    const prevButton =
+      document.getElementById("prevSlide");
+
+    const nextButton =
+      document.getElementById("nextSlide");
+
+    const galleryStage =
+      document.getElementById("galleryStage");
+
+    const imageUnavailable =
+      document.getElementById("imageUnavailable");
+
+    let currentIndex = 0;
+
+    // Create navigation dots
+    slides.forEach((slide, index) => {
+      const dot = document.createElement("button");
+
+      dot.type = "button";
+      dot.className = "gallery-dot";
+
+      dot.setAttribute(
+        "aria-label",
+        `Go to screenshot ${index + 1}: ${slide.title}`
+      );
+
+      dot.addEventListener("click", () => {
+        showSlide(index);
+      });
+
+      galleryDots.appendChild(dot);
+    });
+
+    // Display selected slide
+    function showSlide(index) {
+      currentIndex =
+        (index + slides.length) % slides.length;
+
+      const slide = slides[currentIndex];
+
+      // Update image
+      imageUnavailable.hidden = true;
+      slideLink.hidden = false;
+
+      slideImage.src = slide.image;
+      slideImage.alt = slide.alt;
+      slideLink.href = slide.image;
+
+      // Update screenshot explanation
+      slideTitle.textContent = slide.title;
+      slideDescription.textContent = slide.description;
+
+      const currentNumber =
+        String(currentIndex + 1).padStart(2, "0");
+
+      const totalNumber =
+        String(slides.length).padStart(2, "0");
+
+      slideKicker.textContent =
+        `Screenshot ${currentNumber}`;
+
+      slideCounter.textContent =
+        `${currentNumber} / ${totalNumber}`;
+
+      // Update progress
+      slideProgress.style.width =
+        `${((currentIndex + 1) / slides.length) * 100}%`;
+
+      // Update dots
+      const dots =
+        galleryDots.querySelectorAll(".gallery-dot");
+
+      dots.forEach((dot, index) => {
+        const active = index === currentIndex;
+
+        dot.classList.toggle("active", active);
+        dot.setAttribute("aria-pressed", String(active));
+      });
+    }
+
+    // Handle missing images
+    slideImage.addEventListener("error", () => {
+      slideLink.hidden = true;
+      imageUnavailable.hidden = false;
+    });
+
+    // Previous and Next
+    prevButton.addEventListener("click", () => {
+      showSlide(currentIndex - 1);
+    });
+
+    nextButton.addEventListener("click", () => {
+      showSlide(currentIndex + 1);
+    });
+
+    // Keyboard navigation when gallery controls are focused
+    document.addEventListener("keydown", (event) => {
+      const galleryHasFocus =
+        document.activeElement === prevButton ||
+        document.activeElement === nextButton ||
+        galleryDots.contains(document.activeElement);
+
+      if (!galleryHasFocus) return;
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        showSlide(currentIndex - 1);
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        showSlide(currentIndex + 1);
+      }
+    });
+
+    // Swipe navigation on mobile
+    let touchStartX = 0;
+
+    galleryStage.addEventListener(
+      "touchstart",
+      (event) => {
+        touchStartX = event.changedTouches[0].screenX;
+      },
+      { passive: true }
+    );
+
+    galleryStage.addEventListener(
+      "touchend",
+      (event) => {
+        const touchEndX =
+          event.changedTouches[0].screenX;
+
+        const distance = touchEndX - touchStartX;
+
+        if (Math.abs(distance) < 50) return;
+
+        if (distance < 0) {
+          showSlide(currentIndex + 1);
+        } else {
+          showSlide(currentIndex - 1);
+        }
+      },
+      { passive: true }
+    );
+
+    // Initialise gallery
+    showSlide(0);
+
+    // Current year
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+</html>

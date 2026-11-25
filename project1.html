@@ -1,0 +1,1230 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Explore Rahib Rahman's Road Signs Quiz project, a Visual Basic desktop application featuring learning, testing and database-backed results."
+  />
+  <meta name="theme-color" content="#0b1020" />
+
+  <title>Road Signs Quiz | Rahib Rahman</title>
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --surface: #111a2e;
+      --surface-2: #172239;
+      --text: #f1f5fb;
+      --muted: #a0aec4;
+      --accent: #69b9ff;
+      --accent-2: #a78bfa;
+      --border: rgba(174, 195, 225, 0.13);
+      --radius: 20px;
+      --max-width: 1100px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 650px;
+      background:
+        radial-gradient(
+          ellipse at 75% 10%,
+          rgba(105, 185, 255, 0.12),
+          transparent 50%
+        ),
+        radial-gradient(
+          ellipse at 10% 20%,
+          rgba(167, 139, 250, 0.08),
+          transparent 45%
+        );
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #08101e;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 44px));
+      margin-inline: auto;
+    }
+
+    /* Navigation */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 16, 32, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #69b9ff, #b39aff);
+      color: #091224;
+      border-radius: 12px;
+      font-size: 19px;
+      font-weight: 850;
+    }
+
+    .back-link {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent);
+    }
+
+    /* Project intro */
+
+    .project-hero {
+      padding: 85px 0 55px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 15px rgba(105, 185, 255, 0.6);
+    }
+
+    .project-title {
+      margin: 0 0 21px;
+      font-size: clamp(36px, 5vw, 60px);
+      line-height: 1.15;
+      letter-spacing: -2.5px;
+      font-weight: 800;
+    }
+
+    .gradient-text {
+      background: linear-gradient(105deg, #69b9ff, #b9a2ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .project-intro {
+      max-width: 750px;
+      margin: 0 0 28px;
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      background: rgba(151, 177, 210, 0.08);
+      border: 1px solid var(--border);
+      color: #b6c8df;
+      border-radius: 7px;
+      font-size: 12px;
+    }
+
+    /* Section headings */
+
+    .section {
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      margin-bottom: 9px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(27px, 3.3vw, 36px);
+      line-height: 1.3;
+      letter-spacing: -1px;
+    }
+
+    .section-description {
+      max-width: 650px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .section-heading {
+      margin-bottom: 30px;
+    }
+
+    /* Screenshot gallery */
+
+    .gallery {
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .gallery-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 23px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .gallery-heading {
+      font-size: 13px;
+      color: #bdcce1;
+      font-weight: 700;
+    }
+
+    .gallery-counter {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .gallery-progress {
+      height: 3px;
+      background: rgba(105, 185, 255, 0.1);
+    }
+
+    .gallery-progress-bar {
+      height: 100%;
+      width: 10%;
+      background: linear-gradient(90deg, #69b9ff, #b9a2ff);
+      transition: width 0.3s ease;
+    }
+
+    .gallery-image-area {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 350px;
+      padding: 35px 65px;
+      background:
+        radial-gradient(
+          ellipse at center,
+          #192844 0%,
+          #0c1528 72%
+        );
+    }
+
+    .gallery-image {
+      display: block;
+      width: 100%;
+      max-width: 850px;
+      max-height: 510px;
+      height: auto;
+      object-fit: contain;
+      border-radius: 9px;
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.25);
+    }
+
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(174, 195, 225, 0.3);
+      border-radius: 12px;
+      color: white;
+      background: rgba(23, 34, 57, 0.92);
+      cursor: pointer;
+      font-size: 20px;
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .gallery-arrow:hover {
+      background: #263a59;
+      border-color: var(--accent);
+    }
+
+    .gallery-arrow.prev {
+      left: 17px;
+    }
+
+    .gallery-arrow.next {
+      right: 17px;
+    }
+
+    .gallery-info {
+      padding: 25px 30px 12px;
+      border-top: 1px solid var(--border);
+      min-height: 145px;
+    }
+
+    .slide-title {
+      margin: 0 0 7px;
+      font-size: 19px;
+      letter-spacing: -0.4px;
+    }
+
+    .slide-description {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .gallery-bottom {
+      padding: 15px 20px 23px;
+    }
+
+    .gallery-dots {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .gallery-dot {
+      width: 11px;
+      height: 11px;
+      padding: 0;
+      background: #44536c;
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .gallery-dot:hover {
+      background: #8bcaff;
+      transform: scale(1.15);
+    }
+
+    .gallery-dot.active {
+      background: var(--accent);
+      transform: scale(1.2);
+    }
+
+    .gallery-hint {
+      margin: 14px 0 0;
+      color: #8393ac;
+      text-align: center;
+      font-size: 11px;
+    }
+
+    /* Project overview */
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 24px;
+    }
+
+    .panel {
+      padding: 31px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .panel h3 {
+      margin: 0 0 17px;
+      font-size: 19px;
+      letter-spacing: -0.5px;
+    }
+
+    .panel p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .panel p:last-child {
+      margin-bottom: 0;
+    }
+
+    .tech-category {
+      margin-bottom: 20px;
+    }
+
+    .tech-category:last-child {
+      margin-bottom: 0;
+    }
+
+    .tech-label {
+      margin: 0 0 10px;
+      color: #b7c7df;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    /* Features */
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(105, 185, 255, 0.4);
+    }
+
+    .feature-number {
+      display: inline-block;
+      margin-bottom: 16px;
+      color: var(--accent);
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 9px;
+      font-size: 18px;
+      letter-spacing: -0.4px;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.85;
+    }
+
+    /* Reflection */
+
+    .reflection {
+      padding: 35px;
+      background: linear-gradient(135deg, #16243d, #1d1a35);
+      border: 1px solid rgba(105, 185, 255, 0.2);
+      border-radius: var(--radius);
+    }
+
+    .reflection h3 {
+      margin: 0 0 13px;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+    }
+
+    .reflection p {
+      margin: 0;
+      max-width: 850px;
+      color: #b8c5d9;
+      font-size: 14px;
+      line-height: 1.95;
+    }
+
+    /* Bottom navigation */
+
+    .bottom-navigation {
+      padding: 45px 0 80px;
+      text-align: center;
+    }
+
+    .bottom-navigation p {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 20px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 47px;
+      padding: 11px 20px;
+      border-radius: 11px;
+      background: var(--accent);
+      color: #071326;
+      font-size: 14px;
+      font-weight: 700;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .button:hover {
+      background: #95ceff;
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 25px 0 35px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: #8292ad;
+      font-size: 12px;
+    }
+
+    .footer a:hover {
+      color: var(--accent);
+    }
+
+    /* Mobile */
+
+    @media (max-width: 768px) {
+      .project-hero {
+        padding: 65px 0 45px;
+      }
+
+      .overview-grid,
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-image-area {
+        min-height: 250px;
+        padding: 25px 50px;
+      }
+
+      .gallery-image {
+        max-height: 360px;
+      }
+
+      .gallery-info {
+        min-height: 160px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: calc(100% - 32px);
+      }
+
+      .nav {
+        min-height: 70px;
+      }
+
+      .brand {
+        font-size: 14px;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+      }
+
+      .back-link {
+        font-size: 12px;
+      }
+
+      .project-title {
+        font-size: 39px;
+        letter-spacing: -1.8px;
+      }
+
+      .project-intro {
+        font-size: 14px;
+      }
+
+      .section {
+        padding: 48px 0;
+      }
+
+      .gallery-image-area {
+        min-height: 200px;
+        padding: 18px 42px;
+      }
+
+      .gallery-image {
+        max-height: 290px;
+      }
+
+      .gallery-arrow {
+        width: 32px;
+        height: 38px;
+        font-size: 17px;
+      }
+
+      .gallery-arrow.prev {
+        left: 5px;
+      }
+
+      .gallery-arrow.next {
+        right: 5px;
+      }
+
+      .gallery-top {
+        padding: 14px 17px;
+      }
+
+      .gallery-info {
+        padding: 22px 20px 10px;
+        min-height: 175px;
+      }
+
+      .slide-title {
+        font-size: 17px;
+      }
+
+      .slide-description {
+        font-size: 13px;
+      }
+
+      .panel,
+      .feature-card {
+        padding: 24px;
+      }
+
+      .reflection {
+        padding: 27px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <nav class="container nav" aria-label="Main navigation">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">R.</span>
+        <span>Rahib Rahman</span>
+      </a>
+
+      <a href="index.html#projects" class="back-link">
+        ← Back to projects
+      </a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- Project introduction -->
+    <section class="project-hero">
+      <div class="container">
+        <div class="eyebrow">
+          College project · Desktop application
+        </div>
+
+        <h1 class="project-title">
+          Road Signs<br />
+          <span class="gradient-text">Multiple-Choice Quiz.</span>
+        </h1>
+
+        <p class="project-intro">
+          One of my earlier programming projects: a desktop application
+          built using Visual Basic that helps users learn and test
+          their knowledge of UK road signs. The application includes
+          user accounts, interactive quizzes, a learning mode and
+          a database for storing information and results.
+        </p>
+
+        <div class="tags">
+          <span class="tag">VB.NET</span>
+          <span class="tag">Microsoft Access</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Desktop Development</span>
+          <span class="tag">Database Design</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screenshot gallery -->
+    <section class="section" id="screenshots">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">Inside the application</div>
+          <h2 class="section-title">A look at the project</h2>
+          <p class="section-description">
+            Browse through the application's main screens,
+            from logging in to reviewing quiz results.
+          </p>
+        </div>
+
+        <div class="gallery">
+
+          <div class="gallery-top">
+            <span class="gallery-heading">
+              Application walkthrough
+            </span>
+            <span class="gallery-counter" id="slideCounter">
+              01 / 10
+            </span>
+          </div>
+
+          <div class="gallery-progress">
+            <div
+              class="gallery-progress-bar"
+              id="slideProgress"
+            ></div>
+          </div>
+
+          <div class="gallery-image-area" id="galleryArea">
+            <button
+              class="gallery-arrow prev"
+              id="prevSlide"
+              type="button"
+              aria-label="Previous screenshot"
+            >
+              &#8592;
+            </button>
+
+            <img
+              class="gallery-image"
+              id="slideImage"
+              src="images/roadsign/R1.webp"
+              alt="Application login screen"
+            />
+
+            <button
+              class="gallery-arrow next"
+              id="nextSlide"
+              type="button"
+              aria-label="Next screenshot"
+            >
+              &#8594;
+            </button>
+          </div>
+
+          <div class="gallery-info" aria-live="polite">
+            <h3 class="slide-title" id="slideTitle">
+              Login screen
+            </h3>
+
+            <p class="slide-description" id="slideDescription">
+              Users enter their account details to access
+              the application. Feedback is displayed for
+              successful and unsuccessful login attempts.
+            </p>
+          </div>
+
+          <div class="gallery-bottom">
+            <div
+              class="gallery-dots"
+              id="galleryDots"
+              aria-label="Choose screenshot"
+              role="group"
+            ></div>
+
+            <p class="gallery-hint">
+              Use the arrows or dots to explore all 10 screenshots.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="section" id="overview">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">Behind the project</div>
+          <h2 class="section-title">How it works</h2>
+          <p class="section-description">
+            A closer look at what I built and the technologies
+            used to bring it together.
+          </p>
+        </div>
+
+        <div class="overview-grid">
+
+          <article class="panel">
+            <article class="project-card">
+              <a href="project1.html" class="card-link"
+                aria-label="Open Road Signs Quiz project"></a>
+            <h3>The idea</h3>
+
+            <p>
+              I wanted to create an application that could help
+              users become more familiar with UK road signs
+              through a combination of learning and testing.
+            </p>
+
+            <p>
+              Users can create an account, choose a road sign
+              category and either study individual signs or
+              take a multiple-choice quiz.
+            </p>
+
+            <p>
+              After completing a quiz, users can review their
+              answers and see their results, helping them
+              identify areas where they could improve.
+            </p>
+          </article>
+
+          <aside class="panel">
+            <h3>Built with</h3>
+
+            <div class="tech-category">
+              <div class="tech-label">Programming</div>
+              <div class="tags">
+                <span class="tag">Visual Basic .NET</span>
+              </div>
+            </div>
+
+            <div class="tech-category">
+              <div class="tech-label">Database</div>
+              <div class="tags">
+                <span class="tag">Microsoft Access</span>
+                <span class="tag">SQL Queries</span>
+              </div>
+            </div>
+
+            <div class="tech-category">
+              <div class="tech-label">Application type</div>
+              <div class="tags">
+                <span class="tag">Windows Desktop</span>
+                <span class="tag">Multiple-Choice Quiz</span>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Main features -->
+    <section class="section" id="features">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">What I built</div>
+          <h2 class="section-title">Key features</h2>
+        </div>
+
+        <div class="features-grid">
+
+          <article class="feature-card">
+            <span class="feature-number">01 / USER ACCOUNTS</span>
+
+            <h3>Login &amp; Registration</h3>
+
+            <p>
+              Users can register and log in to the application.
+              Input validation and feedback messages help
+              handle missing details and unsuccessful logins.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">02 / LEARNING</span>
+
+            <h3>Learn Mode</h3>
+
+            <p>
+              Users can browse road signs by category,
+              viewing each sign alongside its name
+              and description before taking a quiz.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">03 / TESTING</span>
+
+            <h3>Multiple-Choice Questions</h3>
+
+            <p>
+              The test mode presents road sign questions
+              with four possible answers, allowing users
+              to test their knowledge and track scores.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-number">04 / RESULTS</span>
+
+            <h3>Results &amp; Answer Review</h3>
+
+            <p>
+              Users can review quiz results, look back
+              at incorrect answers and see category
+              performance. SQL queries connect the
+              application to its Access database.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- What I learned -->
+    <section class="section">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">Looking back</div>
+          <h2 class="section-title">What I learned</h2>
+        </div>
+
+        <div class="reflection">
+          <h3>An early step into building applications</h3>
+
+          <p>
+            This project helped me develop my understanding
+            of programming logic, form validation, user
+            interfaces and relational databases. I gained
+            experience using SQL queries from Visual Basic
+            to interact with Microsoft Access and learned
+            how different application components work
+            together. It was a useful starting point for
+            the more complex software projects I worked
+            on later.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Back to portfolio -->
+    <section class="bottom-navigation">
+      <div class="container">
+        <p>Want to see what else I've worked on?</p>
+
+        <a
+          href="index.html#projects"
+          class="button"
+        >
+          ← Explore more projects
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <span>
+        © <span id="year">2026</span> Rahib Rahman
+      </span>
+
+      <span>Built with HTML, CSS and curiosity.</span>
+
+      <a href="index.html">Back to homepage ↑</a>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Screenshot data
+    const slides = [
+      {
+        image: "images/roadsign/R1.webp",
+        title: "Login screen",
+        alt: "Application login screen",
+        description:
+          "Users enter their account details to access the application. Feedback is displayed for successful and unsuccessful login attempts."
+      },
+      {
+        image: "images/roadsign/R2.webp",
+        title: "Create an account",
+        alt: "Account registration screen",
+        description:
+          "New users can create an account. The application validates the username and password fields and displays an error if required information is missing."
+      },
+      {
+        image: "images/roadsign/R3.webp",
+        title: "Main menu",
+        alt: "Application main menu",
+        description:
+          "After logging in, users reach the main menu, which provides the main navigation options for exploring the application."
+      },
+      {
+        image: "images/roadsign/R4.webp",
+        title: "Choose a category",
+        alt: "Road sign category selection screen",
+        description:
+          "Users choose from five road sign categories before entering either learning mode or testing mode."
+      },
+      {
+        image: "images/roadsign/R5.webp",
+        title: "Learn mode",
+        alt: "Learning mode displaying a road sign",
+        description:
+          "Learn mode displays road sign images, names and descriptions. Users can navigate through the signs in their chosen category at their own pace."
+      },
+      {
+        image: "images/roadsign/R6.webp",
+        title: "Test mode",
+        alt: "Multiple-choice road sign question",
+        description:
+          "Test mode presents a road sign alongside a question and four possible answers. The application records the user's choices and tracks their score."
+      },
+      {
+        image: "images/roadsign/R7.webp",
+        title: "Post-test options",
+        alt: "Options for reviewing quiz results",
+        description:
+          "After completing a test, users can choose whether to review all of their results or focus on the questions they answered incorrectly."
+      },
+      {
+        image: "images/roadsign/R8.webp",
+        title: "Review incorrect answers",
+        alt: "Screen reviewing an incorrect quiz answer",
+        description:
+          "The review screen lets users revisit questions they answered incorrectly, helping them understand which road signs need more practice."
+      },
+      {
+        image: "images/roadsign/R9.webp",
+        title: "Results overview",
+        alt: "Quiz results and performance table",
+        description:
+          "The results screen displays stored quiz performance, including percentages for different categories, so users can review their progress."
+      },
+      {
+        image: "images/roadsign/R10.webp",
+        title: "Database design",
+        alt: "Microsoft Access database structure",
+        description:
+          "The application uses a Microsoft Access relational database to store information such as road sign names, descriptions, image paths and category identifiers."
+      }
+    ];
+
+    // Gallery elements
+    const slideImage = document.getElementById("slideImage");
+    const slideTitle = document.getElementById("slideTitle");
+    const slideDescription = document.getElementById("slideDescription");
+    const slideCounter = document.getElementById("slideCounter");
+    const slideProgress = document.getElementById("slideProgress");
+    const galleryDots = document.getElementById("galleryDots");
+    const prevButton = document.getElementById("prevSlide");
+    const nextButton = document.getElementById("nextSlide");
+
+    let currentIndex = 0;
+
+    // Create navigation dots
+    slides.forEach((slide, index) => {
+      const dot = document.createElement("button");
+
+      dot.type = "button";
+      dot.className = "gallery-dot";
+      dot.setAttribute(
+        "aria-label",
+        `Go to screenshot ${index + 1}: ${slide.title}`
+      );
+
+      dot.addEventListener("click", () => {
+        showSlide(index);
+      });
+
+      galleryDots.appendChild(dot);
+    });
+
+    // Display selected slide
+    function showSlide(index) {
+      currentIndex = (index + slides.length) % slides.length;
+
+      const slide = slides[currentIndex];
+
+      slideImage.src = slide.image;
+      slideImage.alt = slide.alt;
+
+      slideTitle.textContent = slide.title;
+      slideDescription.textContent = slide.description;
+
+      const currentNumber = String(currentIndex + 1).padStart(2, "0");
+      const totalNumber = String(slides.length).padStart(2, "0");
+
+      slideCounter.textContent = `${currentNumber} / ${totalNumber}`;
+
+      slideProgress.style.width =
+        `${((currentIndex + 1) / slides.length) * 100}%`;
+
+      // Update active dot
+      const dots = galleryDots.querySelectorAll(".gallery-dot");
+
+      dots.forEach((dot, index) => {
+        const isActive = index === currentIndex;
+
+        dot.classList.toggle("active", isActive);
+        dot.setAttribute("aria-pressed", String(isActive));
+      });
+    }
+
+    // Previous / Next buttons
+    prevButton.addEventListener("click", () => {
+      showSlide(currentIndex - 1);
+    });
+
+    nextButton.addEventListener("click", () => {
+      showSlide(currentIndex + 1);
+    });
+
+    // Keyboard navigation when gallery controls are focused
+    document.addEventListener("keydown", (event) => {
+      const galleryHasFocus =
+        document.activeElement === prevButton ||
+        document.activeElement === nextButton ||
+        galleryDots.contains(document.activeElement);
+
+      if (!galleryHasFocus) return;
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        showSlide(currentIndex - 1);
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        showSlide(currentIndex + 1);
+      }
+    });
+
+    // Mobile swipe support
+    const galleryArea = document.getElementById("galleryArea");
+
+    let touchStartX = 0;
+
+    galleryArea.addEventListener("touchstart", (event) => {
+      touchStartX = event.changedTouches[0].screenX;
+    }, { passive: true });
+
+    galleryArea.addEventListener("touchend", (event) => {
+      const touchEndX = event.changedTouches[0].screenX;
+      const distance = touchEndX - touchStartX;
+
+      if (Math.abs(distance) < 50) return;
+
+      if (distance < 0) {
+        showSlide(currentIndex + 1);
+      } else {
+        showSlide(currentIndex - 1);
+      }
+    }, { passive: true });
+
+    // Initialise
+    showSlide(0);
+
+    // Automatically update footer year
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+</html>

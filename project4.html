@@ -1,0 +1,1667 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="A football data pipeline project using Flask, Python, Elasticsearch, Logstash, Filebeat and Kibana to explore player data and API request logs." />
+  <title>Football Data Pipeline | Rahib Rahman</title>
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --surface: #111a2e;
+      --surface-2: #172239;
+      --text: #f1f5fb;
+      --muted: #a0aec4;
+      --accent: #69b9ff;
+      --accent-2: #a78bfa;
+      --border: rgba(174, 195, 225, 0.13);
+      --radius: 20px;
+      --max-width: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 95px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 760px;
+      background:
+        radial-gradient(
+          ellipse at 78% 17%,
+          rgba(105,185,255,.15),
+          transparent 44%
+        ),
+        radial-gradient(
+          ellipse at 15% 30%,
+          rgba(167,139,250,.09),
+          transparent 42%
+        );
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    img { max-width: 100%; display: block; }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 44px));
+      margin-inline: auto;
+    }
+
+    /* NAVIGATION */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11,16,32,.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 78px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 750;
+      font-size: 16px;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: #091224;
+      font-size: 19px;
+      font-weight: 850;
+      background: linear-gradient(135deg, #69b9ff, #b39aff);
+    }
+
+    .back-link {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .back-link:hover { color: var(--accent); }
+
+    /* BUTTONS */
+
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 9px;
+      min-height: 47px;
+      padding: 11px 20px;
+      border-radius: 11px;
+      background: var(--accent);
+      color: #071326;
+      font-size: 14px;
+      font-weight: 750;
+      transition:
+        transform .2s ease,
+        background .2s ease,
+        border-color .2s ease;
+    }
+
+    .button:hover {
+      background: #95ceff;
+      transform: translateY(-2px);
+    }
+
+    .button-secondary {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      color: white;
+    }
+
+    .button-secondary:hover {
+      background: var(--surface-2);
+      border-color: var(--accent);
+    }
+
+    /* HERO */
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 48px;
+      padding-block: 90px 85px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: 750;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 16px rgba(105,185,255,.7);
+    }
+
+    h1 {
+      font-size: clamp(41px, 5.2vw, 65px);
+      line-height: 1.13;
+      letter-spacing: -2.6px;
+      margin: 0 0 24px;
+      font-weight: 800;
+    }
+
+    .gradient-text {
+      background: linear-gradient(105deg, #69b9ff, #b9a2ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: var(--muted);
+      margin: 0 0 17px;
+      font-size: 15px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 25px 0 29px;
+    }
+
+    .tag {
+      border: 1px solid var(--border);
+      background: rgba(151,177,210,.08);
+      border-radius: 7px;
+      padding: 5px 11px;
+      color: #b6c8df;
+      font-size: 11px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-preview {
+      position: relative;
+      min-width: 0;
+    }
+
+    .hero-preview::before {
+      content: "";
+      position: absolute;
+      inset: 12%;
+      background: rgba(105,185,255,.2);
+      filter: blur(75px);
+      pointer-events: none;
+    }
+
+    .preview-window {
+      position: relative;
+      padding: 12px;
+      border-radius: 19px;
+      background: #142139;
+      border: 1px solid rgba(105,185,255,.3);
+      box-shadow: 0 30px 80px rgba(0,0,0,.3);
+      transform: rotate(1.5deg);
+    }
+
+    .preview-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 5px 13px;
+      gap: 10px;
+      color: #94a9c6;
+      font-family: Consolas, monospace;
+      font-size: 10px;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .window-dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .window-dots span:nth-child(1) { background: #f28b82; }
+    .window-dots span:nth-child(2) { background: #f5c76c; }
+    .window-dots span:nth-child(3) { background: #70d6a0; }
+
+    .preview-window img {
+      width: 100%;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .preview-caption {
+      color: #8497b3;
+      font-size: 12px;
+      text-align: center;
+      margin: 20px 0 0;
+    }
+
+    /* SHARED SECTIONS */
+
+    .section {
+      padding-block: 70px;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-heading { margin-bottom: 30px; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 750;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 9px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(28px,3.3vw,38px);
+      line-height: 1.28;
+      letter-spacing: -1px;
+    }
+
+    .section-description {
+      color: var(--muted);
+      max-width: 780px;
+      font-size: 14px;
+      margin: 12px 0 0;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .panel {
+      padding: 30px;
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .panel h3 {
+      margin: 0 0 13px;
+      font-size: 19px;
+      letter-spacing: -.4px;
+    }
+
+    .panel p {
+      color: var(--muted);
+      margin: 0 0 13px;
+      font-size: 14px;
+    }
+
+    .panel p:last-child { margin-bottom: 0; }
+
+    .panel .panel-kicker {
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 750;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 18px;
+    }
+
+    .feature-card {
+      padding: 25px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+    }
+
+    .feature-card .number {
+      display: block;
+      color: var(--accent);
+      font: 700 12px Consolas,monospace;
+      margin-bottom: 15px;
+    }
+
+    .feature-card h3 {
+      font-size: 16px;
+      line-height: 1.4;
+      margin: 0 0 9px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    /* DATA FLOW */
+
+    .flow-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .flow-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 23px 25px;
+    }
+
+    .flow-panel h3 {
+      margin: 0 0 15px;
+      font-size: 15px;
+    }
+
+    .flow-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .flow-step {
+      border: 1px solid rgba(105,185,255,.2);
+      background: rgba(105,185,255,.07);
+      border-radius: 9px;
+      padding: 9px 12px;
+      font-size: 12px;
+      font-weight: 650;
+      color: #d8e8fb;
+    }
+
+    .flow-arrow {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .flow-note {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* SCREENSHOT GALLERIES */
+
+    .gallery {
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .gallery-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 17px 23px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .gallery-name {
+      color: #c9d9ec;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .gallery-count {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .gallery-progress {
+      height: 3px;
+      background: rgba(105,185,255,.11);
+    }
+
+    .gallery-progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg,#69b9ff,#b9a2ff);
+      transition: width .2s ease;
+    }
+
+    .gallery-stage {
+      min-height: 420px;
+      padding: 30px 66px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background: radial-gradient(
+        ellipse at center,
+        #202c44,
+        #0c1425 78%
+      );
+    }
+
+    .gallery-image-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .gallery-image {
+      width: 100%;
+      max-height: 530px;
+      object-fit: contain;
+      border-radius: 7px;
+      background: #fff;
+      box-shadow: 0 15px 45px rgba(0,0,0,.25);
+    }
+
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      border: 1px solid rgba(174,195,225,.28);
+      background: rgba(23,34,57,.95);
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .gallery-arrow:hover {
+      background: #263a59;
+      border-color: var(--accent);
+    }
+
+    .gallery-arrow.previous { left: 16px; }
+    .gallery-arrow.next { right: 16px; }
+
+    .gallery-info {
+      padding: 26px 32px;
+      border-top: 1px solid var(--border);
+      min-height: 160px;
+    }
+
+    .gallery-kicker {
+      color: var(--accent);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      font-weight: 750;
+      margin: 0 0 6px;
+    }
+
+    .gallery-title {
+      font-size: 21px;
+      letter-spacing: -.4px;
+      margin: 0 0 10px;
+    }
+
+    .gallery-description {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.9;
+      margin: 0;
+    }
+
+    .gallery-footer {
+      padding: 16px 20px 22px;
+      border-top: 1px solid var(--border);
+    }
+
+    .gallery-dots {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .gallery-dot {
+      width: 11px;
+      height: 11px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #45546e;
+      cursor: pointer;
+    }
+
+    .gallery-dot[aria-pressed="true"] {
+      background: var(--accent);
+      transform: scale(1.2);
+    }
+
+    .gallery-dot:hover { background: #a0d7ff; }
+
+    .gallery-hint {
+      color: #8292ad;
+      text-align: center;
+      font-size: 11px;
+      margin: 15px 0 0;
+    }
+
+    .missing-image {
+      padding: 30px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    [hidden] { display: none !important; }
+
+    .gallery-lead { margin-bottom: 24px; }
+    .gallery-lead strong { color: #e7f0ff; }
+
+    /* REFLECTION */
+
+    .reflection {
+      background: linear-gradient(130deg,#172943,#211e3b);
+      border: 1px solid rgba(167,139,250,.2);
+      border-radius: var(--radius);
+      padding: 34px;
+    }
+
+    .reflection h3 {
+      margin: 0 0 12px;
+      font-size: 21px;
+    }
+
+    .reflection p {
+      color: #b9c7db;
+      font-size: 14px;
+      max-width: 880px;
+      margin: 0;
+    }
+
+    .bottom-navigation {
+      text-align: center;
+      padding: 46px 0 78px;
+    }
+
+    .bottom-navigation p {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 18px;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 25px 0 35px;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      color: #8292ad;
+      font-size: 12px;
+    }
+
+    .footer a:hover { color: var(--accent); }
+
+    /* RESPONSIVE DESIGN */
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding-block: 75px;
+      }
+
+      .hero-preview {
+        max-width: 720px;
+        margin-inline: auto;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      .two-column {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-stage {
+        padding: 24px 55px;
+        min-height: 295px;
+      }
+
+      .gallery-image {
+        max-height: 370px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: calc(100% - 32px);
+      }
+
+      .nav { min-height: 70px; }
+      .brand { font-size: 14px; }
+      .brand-mark { width: 34px; height: 34px; }
+      .back-link { font-size: 12px; }
+
+      .hero {
+        padding-block: 58px 55px;
+      }
+
+      h1 {
+        font-size: 41px;
+        letter-spacing: -2px;
+      }
+
+      .hero p { font-size: 14px; }
+      .preview-window { transform: none; }
+      .section { padding-block: 50px; }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .panel, .reflection { padding: 24px; }
+      .flow-panel { padding: 20px; }
+      .flow-row { gap: 7px; }
+
+      .flow-step {
+        font-size: 11px;
+        padding: 7px 9px;
+      }
+
+      .gallery-stage {
+        padding: 16px 35px;
+        min-height: 235px;
+      }
+
+      .gallery-image { max-height: 280px; }
+
+      .gallery-arrow {
+        width: 29px;
+        height: 37px;
+        font-size: 17px;
+      }
+
+      .gallery-arrow.previous { left: 3px; }
+      .gallery-arrow.next { right: 3px; }
+
+      .gallery-info {
+        padding: 22px 20px;
+        min-height: 180px;
+      }
+
+      .gallery-title { font-size: 18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+
+      *, *::before, *::after {
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <header class="site-header">
+    <nav class="container nav" aria-label="Main navigation">
+
+      <a class="brand" href="index.html">
+        <span class="brand-mark">R.</span>
+        <span>Rahib Rahman</span>
+      </a>
+
+      <a class="back-link" href="index.html#projects">
+        ← Back to projects
+      </a>
+
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="container hero">
+
+      <div>
+        <div class="eyebrow">
+          Data engineering · Monitoring project
+        </div>
+
+        <h1>
+          Football Data<br />
+          <span class="gradient-text">Pipeline.</span>
+        </h1>
+
+        <p>
+          A project combining football, Python and the Elastic Stack.
+          I built a Flask API to generate fictional player data, then used
+          Elasticsearch and Kibana to explore the results through dashboards.
+        </p>
+
+        <p>
+          I also captured and analysed HTTP request logs from the Flask app.
+          That gave me <strong>two different dashboards</strong>: one for football
+          player data and another for API requests and application activity.
+        </p>
+
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">Flask</span>
+          <span class="tag">Elasticsearch</span>
+          <span class="tag">Kibana</span>
+          <span class="tag">Filebeat</span>
+          <span class="tag">Logstash</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Jenkins</span>
+        </div>
+
+        <div class="hero-actions">
+          <a class="button" href="#player-dashboard">
+            Explore the dashboards ↓
+          </a>
+
+          <a
+            class="button button-secondary"
+            href="https://github.com/Rahib20/schema-generator"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View on GitHub ↗
+          </a>
+        </div>
+      </div>
+
+      <!-- ACTUAL PLAYER DASHBOARD SCREENSHOT -->
+      <div class="hero-preview">
+
+        <div class="preview-window">
+
+          <div class="preview-bar">
+            <div class="window-dots" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+
+            <span>kibana / player-profile</span>
+          </div>
+
+          <img
+            src="images/football/F1.png"
+            alt="Actual Kibana Player Profile dashboard showing player metrics"
+          />
+        </div>
+
+        <p class="preview-caption">
+          Actual screenshot from the Player Profile dashboard
+        </p>
+      </div>
+
+    </section>
+
+    <!-- PROJECT OVERVIEW -->
+    <section class="section" id="overview">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">Project overview</div>
+
+          <h2 class="section-title">
+            One application, two ways to explore the data
+          </h2>
+
+          <p class="section-description">
+            The football data helps demonstrate the pipeline,
+            while the request logs show what's happening
+            when the Flask API is used.
+          </p>
+        </div>
+
+        <div class="two-column">
+
+          <article class="panel">
+
+            <p class="panel-kicker">
+              Dashboard 01 / Football data
+            </p>
+
+            <h3>Player Profile Dashboard</h3>
+
+            <p>
+              Explore generated player profiles through counts,
+              market values, wages, positions, clubs and nationalities.
+            </p>
+
+            <p>
+              The captured dashboard shows
+              <strong>95,150 players</strong>,
+              <strong>195 represented nations</strong>
+              and other summary statistics. These are values
+              from the fictional dataset shown in the screenshot.
+            </p>
+
+            <a
+              class="button button-secondary"
+              href="#player-dashboard"
+            >
+              See player dashboard ↓
+            </a>
+          </article>
+
+          <article class="panel">
+
+            <p class="panel-kicker">
+              Dashboard 02 / Flask activity
+            </p>
+
+            <h3>API Request Logs Dashboard</h3>
+
+            <p>
+              Explore requests to the Flask application:
+              HTTP methods, user agents, URL paths,
+              response sizes and status codes.
+            </p>
+
+            <p>
+              The accompanying Kibana Discover view also
+              shows individual log entries, including
+              request paths and client addresses.
+            </p>
+
+            <a
+              class="button button-secondary"
+              href="#logs-dashboard"
+            >
+              See logs dashboard ↓
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="section" id="architecture">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">
+            How the pieces fit together
+          </div>
+
+          <h2 class="section-title">
+            Pipeline and observability
+          </h2>
+
+          <p class="section-description">
+            A simplified view of the two related data flows.
+            Kibana provides both the football visualisations
+            and the request monitoring.
+          </p>
+        </div>
+
+        <div class="flow-stack">
+
+          <div class="flow-panel">
+            <h3>Football player data</h3>
+
+            <div class="flow-row">
+              <span class="flow-step">Flask API</span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step">Player data pipeline</span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step">Elasticsearch</span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step">Kibana dashboard</span>
+            </div>
+
+            <p class="flow-note">
+              Generated football records are made searchable
+              and visualised as player statistics.
+            </p>
+          </div>
+
+          <div class="flow-panel">
+            <h3>Flask API request logs</h3>
+
+            <div class="flow-row">
+              <span class="flow-step">Flask request logs</span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step">Filebeat / Logstash</span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step">Elasticsearch</span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step">
+                Kibana dashboards &amp; Discover
+              </span>
+            </div>
+
+            <p class="flow-note">
+              Request activity can be searched and inspected
+              alongside visualisations of traffic patterns
+              and responses.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAYER DASHBOARD -->
+    <section class="section" id="player-dashboard">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">
+            Dashboard 01 / Football data
+          </div>
+
+          <h2 class="section-title">
+            Player Profile Dashboard
+          </h2>
+
+          <p class="section-description">
+            The first dashboard focuses on the fictional
+            football players generated by the application.
+          </p>
+        </div>
+
+        <div class="feature-grid gallery-lead">
+
+          <article class="feature-card">
+            <span class="number">01 / OVERVIEW</span>
+
+            <h3>Player statistics</h3>
+
+            <p>
+              Counts of players, players on the market,
+              average market value, wages and countries represented.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="number">02 / COMPARISONS</span>
+
+            <h3>Positions and clubs</h3>
+
+            <p>
+              A position breakdown and a table ranking clubs
+              by their combined skill-rating values.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="number">03 / GEOGRAPHY</span>
+
+            <h3>Nationalities</h3>
+
+            <p>
+              A nationality-and-position breakdown together
+              with a world map of the player dataset.
+            </p>
+          </article>
+
+        </div>
+
+        <!-- PLAYER IMAGE GALLERY -->
+        <div
+          class="gallery"
+          data-gallery="players"
+          aria-label="Player dashboard screenshot gallery"
+        >
+
+          <div class="gallery-top">
+            <span class="gallery-name">
+              Player Profile Dashboard · Screenshots
+            </span>
+
+            <span class="gallery-count">
+              01 / 03
+            </span>
+          </div>
+
+          <div class="gallery-progress">
+            <div class="gallery-progress-fill"></div>
+          </div>
+
+          <div class="gallery-stage">
+
+            <button
+              class="gallery-arrow previous"
+              type="button"
+              aria-label="Previous player dashboard screenshot"
+            >
+              ←
+            </button>
+
+            <a
+              class="gallery-image-link"
+              href="images/football/F1.png"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open full-size player dashboard screenshot"
+            >
+              <img
+                class="gallery-image"
+                src="images/football/F1.png"
+                alt="Kibana Player Profile dashboard overview"
+                loading="lazy"
+              />
+            </a>
+
+            <p class="missing-image" hidden>
+              Image not found. Check the images/football folder.
+            </p>
+
+            <button
+              class="gallery-arrow next"
+              type="button"
+              aria-label="Next player dashboard screenshot"
+            >
+              →
+            </button>
+
+          </div>
+
+          <div class="gallery-info" aria-live="polite">
+            <p class="gallery-kicker">
+              Screenshot 01
+            </p>
+
+            <h3 class="gallery-title">
+              Player Profile Overview
+            </h3>
+
+            <p class="gallery-description">
+              The main player dashboard.
+            </p>
+          </div>
+
+          <div class="gallery-footer">
+            <div
+              class="gallery-dots"
+              role="group"
+              aria-label="Select player dashboard screenshot"
+            ></div>
+
+            <p class="gallery-hint">
+              Use the arrows or dots to browse.
+              Click an image for its full size.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- LOGS DASHBOARD -->
+    <section class="section" id="logs-dashboard">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">
+            Dashboard 02 / Application monitoring
+          </div>
+
+          <h2 class="section-title">
+            Flask API Requests &amp; Logs
+          </h2>
+
+          <p class="section-description">
+            The second dashboard is about the application itself:
+            which endpoints were requested, how clients accessed
+            them and what responses were returned.
+          </p>
+        </div>
+
+        <div class="feature-grid gallery-lead">
+
+          <article class="feature-card">
+            <span class="number">01 / REQUESTS</span>
+
+            <h3>Methods and clients</h3>
+
+            <p>
+              Compare GET, POST and DELETE traffic,
+              plus user agents such as Python Requests,
+              Postman and browsers.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="number">02 / RESPONSES</span>
+
+            <h3>Response information</h3>
+
+            <p>
+              Review response sizes over time and
+              HTTP status codes including
+              200, 400, 404 and 500.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="number">03 / ENDPOINTS</span>
+
+            <h3>Paths and raw logs</h3>
+
+            <p>
+              See frequently requested URL paths
+              and inspect individual log messages
+              in Kibana Discover.
+            </p>
+          </article>
+
+        </div>
+
+        <!-- LOGS IMAGE GALLERY -->
+        <div
+          class="gallery"
+          data-gallery="logs"
+          aria-label="API request logs screenshot gallery"
+        >
+
+          <div class="gallery-top">
+            <span class="gallery-name">
+              Logs Dashboard &amp; Discover · Screenshots
+            </span>
+
+            <span class="gallery-count">
+              01 / 05
+            </span>
+          </div>
+
+          <div class="gallery-progress">
+            <div class="gallery-progress-fill"></div>
+          </div>
+
+          <div class="gallery-stage">
+
+            <button
+              class="gallery-arrow previous"
+              type="button"
+              aria-label="Previous logs screenshot"
+            >
+              ←
+            </button>
+
+            <a
+              class="gallery-image-link"
+              href="images/football/F4.png"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open full-size logs dashboard screenshot"
+            >
+              <img
+                class="gallery-image"
+                src="images/football/F4.png"
+                alt="Kibana Logs Dashboard in edit mode"
+                loading="lazy"
+              />
+            </a>
+
+            <p class="missing-image" hidden>
+              Image not found. Check the images/football folder.
+            </p>
+
+            <button
+              class="gallery-arrow next"
+              type="button"
+              aria-label="Next logs screenshot"
+            >
+              →
+            </button>
+
+          </div>
+
+          <div class="gallery-info" aria-live="polite">
+            <p class="gallery-kicker">
+              Screenshot 01
+            </p>
+
+            <h3 class="gallery-title">
+              Logs Dashboard Overview
+            </h3>
+
+            <p class="gallery-description">
+              Kibana dashboard in edit mode.
+            </p>
+          </div>
+
+          <div class="gallery-footer">
+            <div
+              class="gallery-dots"
+              role="group"
+              aria-label="Select logs screenshot"
+            ></div>
+
+            <p class="gallery-hint">
+              Browse the logs dashboard, then see
+              the individual events in Discover.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- LESSONS -->
+    <section class="section" id="lessons">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">
+            What I worked with
+          </div>
+
+          <h2 class="section-title">
+            Building and troubleshooting the pipeline
+          </h2>
+        </div>
+
+        <div class="two-column">
+
+          <article class="panel">
+            <h3>Technical experience</h3>
+
+            <p>
+              This project brought together a Flask API,
+              data generation, containerised services,
+              Elasticsearch indexing and Kibana visualisations.
+              I also worked with Filebeat and Logstash
+              for the logging side of the pipeline.
+            </p>
+
+            <p>
+              Docker and Jenkins were part of exploring
+              how to build and run the connected services
+              and automate aspects of the workflow.
+            </p>
+          </article>
+
+          <article class="panel">
+            <h3>What the dashboards taught me</h3>
+
+            <p>
+              The player dashboard demonstrated how
+              generated data could become useful statistics,
+              while the logs dashboard showed how the
+              same project could be monitored through
+              its HTTP requests.
+            </p>
+
+            <p>
+              Seeing request methods, status codes, paths
+              and individual log entries in Kibana helped
+              connect application behaviour to the data
+              collected by the pipeline.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- REFLECTION -->
+    <section class="section">
+      <div class="container">
+
+        <div class="reflection">
+          <h3>Why this project matters to me</h3>
+
+          <p>
+            I wanted to build something that combined
+            a subject I enjoy football with hands-on
+            experience in APIs, data pipelines and
+            observability. The result was more than a
+            football dashboard: it was also a way to
+            see how requests flow through an application
+            and how logging tools make that activity visible.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RETURN TO PROJECTS -->
+    <section class="bottom-navigation">
+      <div class="container">
+
+        <p>Want to explore the other things I've built?</p>
+
+        <a class="button" href="index.html#projects">
+          ← Back to all projects
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+
+      <span>
+        © <span id="year">2026</span> Rahib Rahman
+      </span>
+
+      <span>
+        Built with HTML, CSS and curiosity.
+      </span>
+
+      <a href="index.html">
+        Back to homepage ↑
+      </a>
+
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    /*
+      F1-F3: Player statistics dashboard
+      F4-F8: Flask API requests and logs
+    */
+
+    const slides = {
+      players: [
+        {
+          image: "images/football/F1.png",
+          title: "Player Profile Overview",
+          description:
+            "The main Kibana dashboard displays 95,150 generated player records, 33,226 players marked as on the market, an average market value of 30.8m, an average weekly wage of 125.6k and 195 represented nations. These are snapshot values from the fictional dataset.",
+          alt:
+            "Kibana Player Profile dashboard showing player counts, market values, wages and nations"
+        },
+        {
+          image: "images/football/F2.png",
+          title: "Positions and Top Clubs",
+          description:
+            "A bar chart compares the number of player records by position, including midfielders, strikers, defenders and goalkeepers. Beside it, a table shows the top ten generated clubs ranked by the sum of their players' skill ratings.",
+          alt:
+            "Kibana player positions bar chart and top ten clubs table"
+        },
+        {
+          image: "images/football/F3.png",
+          title: "Nationalities, Positions and World Map",
+          description:
+            "A sunburst chart breaks down leading nationalities by playing position. A world map alongside it provides a geographic view of the generated player data. This map represents player nationalities, not the locations of API visitors.",
+          alt:
+            "Kibana nationality and position sunburst chart next to world map"
+        }
+      ],
+
+      logs: [
+        {
+          image: "images/football/F4.png",
+          title: "Logs Dashboard Overview",
+          description:
+            "The Kibana Logs Dashboard in edit mode. This dashboard was created to visualise traffic generated by requests to the Flask application, including HTTP methods and clients making requests.",
+          alt:
+            "Kibana Logs Dashboard editing view with HTTP method and agent charts"
+        },
+        {
+          image: "images/football/F5.png",
+          title: "HTTP Methods and User Agents",
+          description:
+            "The left visualisation breaks down GET, POST and DELETE requests. The right chart compares user agents seen in the logs, including Python Requests, Postman, Samsung Internet, Chrome Mobile, Chrome and Edge. Percentages reflect the captured sample.",
+          alt:
+            "Kibana charts for GET POST DELETE method percentages and user agent request counts"
+        },
+        {
+          image: "images/football/F6.png",
+          title: "Response Sizes and HTTP Status Codes",
+          description:
+            "A time-series chart displays the 95th-percentile response size in bytes, while a stacked chart shows the number of responses by HTTP status code over time. The screenshot includes statuses 200, 400, 404 and 500.",
+          alt:
+            "Kibana response size over time chart and HTTP status code chart"
+        },
+        {
+          image: "images/football/F7.png",
+          title: "Popular API Paths and Request Count",
+          description:
+            "The popular URL paths chart shows which Flask endpoints received requests, such as /schemas/samples/, /schema and /schemas. The metric panel shows 55 requests in the selected captured view.",
+          alt:
+            "Kibana popular Flask API URL paths and request count metric of 55"
+        },
+        {
+          image: "images/football/F8.png",
+          title: "Raw Request Logs in Kibana Discover",
+          description:
+            "The Discover view shows 55 indexed log documents for the selected time range. Individual messages include a client address, timestamp, HTTP request path, response code, response size and user-agent text—for example, a GET request to /schemas/samples/ made using python-requests.",
+          alt:
+            "Kibana Discover showing Flask access log records and selected log fields"
+        }
+      ]
+    };
+
+    /*
+      Reusable gallery logic.
+      Creates two independent screenshot galleries.
+    */
+
+    function setupGallery(name) {
+      const root = document.querySelector(
+        `[data-gallery="${name}"]`
+      );
+
+      const items = slides[name];
+
+      const image = root.querySelector(".gallery-image");
+      const link = root.querySelector(".gallery-image-link");
+      const missing = root.querySelector(".missing-image");
+      const count = root.querySelector(".gallery-count");
+      const progress = root.querySelector(".gallery-progress-fill");
+      const kicker = root.querySelector(".gallery-kicker");
+      const title = root.querySelector(".gallery-title");
+      const description = root.querySelector(".gallery-description");
+      const dots = root.querySelector(".gallery-dots");
+      const previous = root.querySelector(".gallery-arrow.previous");
+      const next = root.querySelector(".gallery-arrow.next");
+
+      let index = 0;
+      let touchStart = null;
+
+      // Create navigation dots
+      items.forEach((item, itemIndex) => {
+        const dot = document.createElement("button");
+
+        dot.type = "button";
+        dot.className = "gallery-dot";
+
+        dot.setAttribute(
+          "aria-label",
+          `Show ${item.title}`
+        );
+
+        dot.addEventListener("click", () => {
+          show(itemIndex);
+        });
+
+        dots.appendChild(dot);
+      });
+
+      // Display the selected screenshot
+      function show(newIndex) {
+        index = (newIndex + items.length) % items.length;
+
+        const item = items[index];
+
+        link.hidden = false;
+        missing.hidden = true;
+
+        image.src = item.image;
+        image.alt = item.alt;
+        link.href = item.image;
+
+        link.setAttribute(
+          "aria-label",
+          `Open full-size image: ${item.title}`
+        );
+
+        title.textContent = item.title;
+        description.textContent = item.description;
+
+        const n = String(index + 1).padStart(2, "0");
+
+        count.textContent =
+          `${n} / ${String(items.length).padStart(2, "0")}`;
+
+        kicker.textContent = `Screenshot ${n}`;
+
+        progress.style.width =
+          `${((index + 1) / items.length) * 100}%`;
+
+        // Update active navigation dot
+        [...dots.children].forEach((dot, dotIndex) => {
+          dot.setAttribute(
+            "aria-pressed",
+            String(dotIndex === index)
+          );
+        });
+      }
+
+      // Missing image handling
+      image.addEventListener("error", () => {
+        link.hidden = true;
+        missing.hidden = false;
+      });
+
+      // Gallery arrows
+      previous.addEventListener("click", () => {
+        show(index - 1);
+      });
+
+      next.addEventListener("click", () => {
+        show(index + 1);
+      });
+
+      // Keyboard navigation
+      root.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          show(index - 1);
+        } else if (event.key === "ArrowRight") {
+          event.preventDefault();
+          show(index + 1);
+        }
+      });
+
+      // Swipe navigation
+      const stage = root.querySelector(".gallery-stage");
+
+      stage.addEventListener(
+        "touchstart",
+        (event) => {
+          touchStart = event.changedTouches[0].screenX;
+        },
+        { passive: true }
+      );
+
+      stage.addEventListener(
+        "touchend",
+        (event) => {
+          if (touchStart === null) return;
+
+          const distance =
+            event.changedTouches[0].screenX - touchStart;
+
+          touchStart = null;
+
+          if (Math.abs(distance) < 55) return;
+
+          if (event.target.closest("a, button")) return;
+
+          show(index + (distance < 0 ? 1 : -1));
+        },
+        { passive: true }
+      );
+
+      // Initialise the gallery
+      show(0);
+    }
+
+    // Start both screenshot galleries
+    setupGallery("players");
+    setupGallery("logs");
+
+    // Copyright year
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+</html>

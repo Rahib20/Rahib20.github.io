@@ -1,0 +1,1757 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="Explore the projects, experiments and technical background of Rahib Rahman." />
+  <title>Rahib Rahman | Projects & Technology</title>
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --surface: #111a2e;
+      --surface-2: #172239;
+      --text: #f1f5fb;
+      --muted: #a0aec4;
+      --accent: #69b9ff;
+      --accent-2: #a78bfa;
+      --border: rgba(174,195,225,0.13);
+      --radius: 20px;
+      --max-width: 1160px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 100px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 780px;
+      background:
+        radial-gradient(ellipse at 75% 16%, rgba(105,185,255,0.13), transparent 45%),
+        radial-gradient(ellipse at 15% 30%, rgba(167,139,250,0.09), transparent 40%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, a, summary {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a:focus-visible,
+    summary:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 5px;
+      border-radius: 5px;
+    }
+
+    ::selection {
+      background: #69b9ff;
+      color: #08101e;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 44px));
+      margin-inline: auto;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 15px;
+      padding: 10px 16px;
+      background: white;
+      color: #111827;
+      z-index: 100;
+    }
+
+    .skip-link:focus {
+      top: 10px;
+    }
+
+    /* Navigation */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11,16,32,0.86);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+      font-weight: 750;
+      letter-spacing: -0.4px;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #69b9ff, #b39aff);
+      color: #091224;
+      font-size: 19px;
+      font-weight: 850;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 550;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: white;
+    }
+
+    .nav-links .nav-github {
+      color: white;
+      padding: 9px 17px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+    }
+
+    .nav-links .nav-github:hover {
+      border-color: var(--accent);
+    }
+
+    /* Buttons */
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 47px;
+      padding: 11px 20px;
+      border-radius: 11px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      background: var(--accent);
+      color: #071326;
+    }
+
+    .button-primary:hover {
+      background: #95ceff;
+    }
+
+    .button-secondary {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: white;
+    }
+
+    .button-secondary:hover {
+      border-color: var(--accent);
+    }
+
+    /* Hero */
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 65px;
+      align-items: center;
+      min-height: 590px;
+      padding-block: 105px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 16px rgba(105,185,255,0.8);
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 5vw, 70px);
+      line-height: 1.12;
+      letter-spacing: -3px;
+      margin: 0 0 26px;
+      font-weight: 800;
+    }
+
+    .gradient-text {
+      background: linear-gradient(105deg, #69b9ff 5%, #b9a2ff 85%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-description {
+      max-width: 550px;
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--muted);
+      margin: 0 0 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Hero illustration */
+
+    .hero-visual {
+      position: relative;
+      padding: 15px;
+    }
+
+    .visual-glow {
+      position: absolute;
+      inset: 15%;
+      background: #4772c6;
+      filter: blur(100px);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    .workspace {
+      position: relative;
+      border: 1px solid rgba(190,207,239,0.2);
+      border-radius: 19px;
+      background: #101a2d;
+      overflow: hidden;
+      box-shadow: 0 30px 90px rgba(0,0,0,0.25);
+      transform: rotate(2deg);
+    }
+
+    .workspace-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 17px;
+      border-bottom: 1px solid var(--border);
+      background: #152036;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .window-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #64748b;
+    }
+
+    .window-dots span:nth-child(1) { background: #f28b82; }
+    .window-dots span:nth-child(2) { background: #f5c76c; }
+    .window-dots span:nth-child(3) { background: #70d6a0; }
+
+    .workspace-label {
+      font-family: Consolas, monospace;
+      font-size: 11px;
+      color: #9db2cf;
+    }
+
+    .workspace-body {
+      padding: 25px;
+    }
+
+    .code-line {
+      display: flex;
+      gap: 12px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 12px;
+      line-height: 2.2;
+      white-space: nowrap;
+    }
+
+    .line-number {
+      color: #53657c;
+      width: 18px;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .code-blue { color: #81c7ff; }
+    .code-purple { color: #c5a8ff; }
+    .code-green { color: #88d9bd; }
+    .code-light { color: #d7e4f5; }
+
+    .workspace-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    .mini-dashboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+    }
+
+    .mini-box {
+      min-height: 70px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #18263d;
+      padding: 12px;
+    }
+
+    .mini-box-label {
+      display: block;
+      color: #95a8c1;
+      font-size: 9px;
+      letter-spacing: 0.4px;
+      margin-bottom: 9px;
+    }
+
+    .mini-box-value {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      color: #e4f0ff;
+    }
+
+    .mini-box-value.blue { color: #78c5ff; }
+    .mini-box-value.purple { color: #c4a8ff; }
+
+    .visual-caption {
+      margin: 18px 0 0;
+      text-align: center;
+      color: #7e91ac;
+      font-size: 12px;
+    }
+
+    /* Sections */
+
+    .section {
+      padding-block: 75px;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 750;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 9px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(28px, 3.4vw, 39px);
+      letter-spacing: -1.4px;
+      line-height: 1.25;
+    }
+
+    .section-description {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 650px;
+      margin: 14px 0 0;
+    }
+
+    .section-heading {
+      margin-bottom: 34px;
+    }
+
+    /* Featured project */
+
+    .featured-project {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 36px;
+      padding: 34px;
+      background: linear-gradient(135deg, #14243c, #11192c 70%);
+      border: 1px solid rgba(105,185,255,0.23);
+      border-radius: var(--radius);
+      margin-bottom: 22px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .featured-project:hover {
+      transform: translateY(-3px);
+      border-color: rgba(105,185,255,0.6);
+    }
+
+    .featured-label {
+      display: inline-block;
+      margin-bottom: 17px;
+      color: #89c9ff;
+      font-size: 11px;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .featured-project h3 {
+      font-size: clamp(24px, 2.6vw, 32px);
+      letter-spacing: -0.9px;
+      line-height: 1.25;
+      margin: 0 0 16px;
+    }
+
+    .featured-project p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.85;
+      margin: 0 0 20px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 22px;
+    }
+
+    .tag {
+      padding: 5px 11px;
+      font-size: 11px;
+      color: #b6c8df;
+      background: rgba(151,177,210,0.08);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+    }
+
+    .project-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Pipeline diagram */
+
+    .pipeline-visual {
+      align-self: center;
+      padding: 24px;
+      border-radius: 16px;
+      background: rgba(6,13,26,0.55);
+      border: 1px solid var(--border);
+    }
+
+    .diagram-title {
+      color: #9db1cc;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .pipeline-row {
+      display: grid;
+      grid-template-columns: 1fr 22px 1fr 22px 1fr;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .pipeline-step {
+      padding: 16px 7px;
+      background: #192940;
+      border: 1px solid #31445f;
+      border-radius: 10px;
+      text-align: center;
+      min-width: 0;
+    }
+
+    .pipeline-step span {
+      display: block;
+      color: #85a2c7;
+      font-size: 9px;
+      margin-bottom: 4px;
+    }
+
+    .pipeline-step strong {
+      display: block;
+      color: #e4efff;
+      font-size: 11px;
+      overflow-wrap: anywhere;
+    }
+
+    .pipeline-arrow {
+      color: #78c5ff;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .pipeline-bottom {
+      margin-top: 15px;
+      padding: 13px 15px;
+      border-radius: 10px;
+      text-align: center;
+      background: rgba(105,185,255,0.09);
+      border: 1px solid rgba(105,185,255,0.2);
+      color: #a5d9ff;
+      font-size: 12px;
+    }
+
+    .diagram-note {
+      color: #7187a5;
+      font-size: 10px;
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    /* Project cards */
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .project-card {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(105,185,255,0.48);
+    }
+
+    /* IMPORTANT: CLICKABLE CARD FIX */
+
+    .project-card,
+    .featured-project {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .card-link {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
+      cursor: pointer;
+    }
+
+    /* Keep buttons and expandable details above the card link */
+    .project-card .project-details,
+    .featured-project .project-details,
+    .featured-project .project-actions,
+    .project-open-link {
+      position: relative;
+      z-index: 2;
+    }
+
+    .project-card:focus-within,
+    .featured-project:focus-within {
+      border-color: rgba(105,185,255,0.65);
+    }
+
+    .project-open-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      align-self: flex-start;
+      margin-bottom: 6px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .project-open-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Project art */
+
+    .project-art {
+      height: 185px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .art-rota {
+      background: linear-gradient(135deg, #153d48, #112b39);
+    }
+
+    .art-language {
+      background: linear-gradient(135deg, #362650, #1e2042);
+    }
+
+    .art-quiz {
+      background: linear-gradient(135deg, #42301e, #30283d);
+    }
+
+    .art-window {
+      width: min(100%, 245px);
+      padding: 13px;
+      background: rgba(11,20,35,0.8);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+
+    .art-bar {
+      height: 6px;
+      width: 46%;
+      background: rgba(255,255,255,0.38);
+      border-radius: 5px;
+      margin-bottom: 12px;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+    }
+
+    .calendar-cell {
+      height: 20px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.09);
+    }
+
+    .calendar-cell.active {
+      background: rgba(81,221,188,0.55);
+    }
+
+    .calendar-cell.secondary {
+      background: rgba(105,185,255,0.5);
+    }
+
+    .chat-bubble {
+      border-radius: 9px;
+      padding: 9px 12px;
+      font-size: 11px;
+      margin-bottom: 9px;
+      max-width: 85%;
+      line-height: 1.5;
+    }
+
+    .chat-bubble.question {
+      color: #e9dfff;
+      background: rgba(167,139,250,0.3);
+    }
+
+    .chat-bubble.answer {
+      color: #d4f0ff;
+      background: rgba(105,185,255,0.2);
+      margin-left: auto;
+      margin-bottom: 0;
+    }
+
+    .quiz-sign {
+      width: 65px;
+      height: 65px;
+      margin: 0 auto 15px;
+      display: grid;
+      place-items: center;
+      border: 6px solid #e97171;
+      border-radius: 50%;
+      background: #f9fafb;
+      color: #252d3e;
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .quiz-option {
+      height: 18px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 4px;
+    }
+
+    .quiz-option.selected {
+      background: rgba(251,192,101,0.65);
+    }
+
+    .project-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 25px;
+    }
+
+    .project-category {
+      color: #8eb8e7;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 750;
+      margin-bottom: 10px;
+    }
+
+    .project-content h3 {
+      margin: 0 0 12px;
+      font-size: 19px;
+      line-height: 1.4;
+      letter-spacing: -0.5px;
+    }
+
+    .project-content > p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+      margin: 0;
+    }
+
+    .project-content .tags {
+      margin-top: auto;
+      padding-top: 20px;
+      margin-bottom: 15px;
+    }
+
+    /* Expandable details */
+
+    .project-details {
+      margin-top: 14px;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+
+    .project-details summary {
+      cursor: pointer;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .project-details summary:hover {
+      color: #acdfff;
+    }
+
+    .details-body {
+      margin-top: 15px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .details-body p {
+      margin: 0 0 12px;
+    }
+
+    .details-body strong {
+      color: #e5edfa;
+    }
+
+    /* About */
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 25px;
+    }
+
+    .about-panel,
+    .skills-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .about-panel h3,
+    .skills-panel h3 {
+      font-size: 19px;
+      letter-spacing: -0.5px;
+      margin: 0 0 18px;
+    }
+
+    .about-panel p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.9;
+      margin: 0 0 16px;
+    }
+
+    .about-panel p:last-child {
+      margin-bottom: 0;
+    }
+
+    .skill-group {
+      margin-bottom: 23px;
+    }
+
+    .skill-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .skill-heading {
+      color: #b9cce4;
+      font-size: 12px;
+      font-weight: 750;
+      margin-bottom: 10px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Contact */
+
+    .contact {
+      padding: 65px 0 85px;
+    }
+
+    .contact-panel {
+      position: relative;
+      overflow: hidden;
+      padding: 50px;
+      text-align: center;
+      background: linear-gradient(130deg, #182c48, #201a3b);
+      border: 1px solid rgba(139,176,255,0.22);
+      border-radius: 24px;
+    }
+
+    .contact-panel::before {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: rgba(105,185,255,0.09);
+      filter: blur(35px);
+      top: -150px;
+      right: -80px;
+      pointer-events: none;
+    }
+
+    .contact-panel h2 {
+      position: relative;
+      margin: 0 0 13px;
+      font-size: clamp(27px,3.6vw,38px);
+      letter-spacing: -1px;
+    }
+
+    .contact-panel p {
+      position: relative;
+      color: #b7c3dc;
+      max-width: 520px;
+      margin: 0 auto 25px;
+      font-size: 14px;
+    }
+
+    .contact-panel .button {
+      position: relative;
+    }
+
+    /* Footer */
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 25px 0 35px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: #8292ad;
+      font-size: 12px;
+    }
+
+    .footer a:hover {
+      color: var(--accent);
+    }
+
+    /* Responsive */
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        min-height: auto;
+        padding-block: 80px;
+      }
+
+      .hero-visual {
+        max-width: 530px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .featured-project {
+        grid-template-columns: 1fr;
+      }
+
+      .project-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .container {
+        width: calc(100% - 32px);
+      }
+
+      .nav {
+        min-height: 72px;
+        flex-wrap: wrap;
+        padding-block: 14px;
+        gap: 12px;
+      }
+
+      .nav-links {
+        width: 100%;
+        gap: 18px;
+        justify-content: space-between;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+      }
+
+      .nav-links .nav-github {
+        padding: 6px 11px;
+      }
+
+      .hero {
+        padding-block: 65px;
+      }
+
+      .hero h1 {
+        font-size: clamp(39px,10vw,55px);
+        letter-spacing: -2px;
+      }
+
+      .hero-description {
+        font-size: 15px;
+      }
+
+      .workspace {
+        transform: none;
+      }
+
+      .workspace-body {
+        padding: 16px;
+      }
+
+      .code-line {
+        font-size: 10px;
+      }
+
+      .section {
+        padding-block: 55px;
+      }
+
+      .featured-project {
+        padding: 24px;
+        gap: 25px;
+      }
+
+      .pipeline-visual {
+        padding: 15px;
+      }
+
+      .pipeline-row {
+        gap: 4px;
+        grid-template-columns: 1fr 15px 1fr 15px 1fr;
+      }
+
+      .pipeline-step {
+        padding: 12px 4px;
+      }
+
+      .pipeline-step strong {
+        font-size: 10px;
+      }
+
+      .project-grid,
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-art {
+        height: 200px;
+      }
+
+      .about-panel,
+      .skills-panel {
+        padding: 25px;
+      }
+
+      .contact-panel {
+        padding: 38px 22px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#top" class="brand" aria-label="Rahib Rahman, back to top">
+        <span class="brand-mark">R.</span>
+        <span>Rahib Rahman</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a
+          class="nav-github"
+          href="https://github.com/Rahib20"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub ↗
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- Hero -->
+    <section class="container hero" id="top">
+      <div>
+        <div class="eyebrow">
+          Welcome to my corner of the internet
+        </div>
+
+        <h1>
+          Ideas, code &amp;<br />
+          <span class="gradient-text">things I've built.</span>
+        </h1>
+
+        <p class="hero-description">
+          Hey, I'm Rahib! I have a degree in Computer Science and nearly
+          two years of professional experience in DevOps, working
+          with CI/CD pipelines, automation and infrastructure
+          technologies. I'm interested in software development,
+          cloud technologies and exploring new tools. This is where
+          I share projects I've built, things I've experimented
+          with, and what I've learned along the way.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#projects" class="button button-primary">
+            Explore my projects
+            <span aria-hidden="true">↓</span>
+          </a>
+
+          <a
+            href="https://github.com/Rahib20"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="button button-secondary"
+          >
+            My GitHub
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Decorative code illustration -->
+      <div class="hero-visual" aria-hidden="true">
+        <div class="visual-glow"></div>
+
+        <div class="workspace">
+          <div class="workspace-header">
+            <div class="window-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span class="workspace-label">portfolio / projects</span>
+          </div>
+
+     
+<div class="workspace-body">
+            <div class="code-line">
+              <span class="line-number">01</span>
+              <span>
+                <span class="code-blue">developer</span>
+                <span class="code-light"> = {</span>
+              </span>
+            </div>
+
+            <div class="code-line">
+              <span class="line-number">02</span>
+              <span>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-blue">"name"</span>:
+                <span class="code-green">"Rahib"</span>,
+              </span>
+            </div>
+
+            <div class="code-line">
+              <span class="line-number">03</span>
+              <span>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-blue">"experience"</span>:
+                <span class="code-green">"Nearly 2 years in DevOps"</span>,
+              </span>
+            </div>
+
+            <div class="code-line">
+              <span class="line-number">04</span>
+              <span>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-blue">"interests"</span>:
+                <span class="code-green">"Tech &amp; building"</span>,
+              </span>
+            </div>
+
+            <div class="code-line">
+              <span class="line-number">05</span>
+              <span>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-blue">"status"</span>:
+                <span class="code-green">"Always learning"</span>
+              </span>
+            </div>
+
+            <div class="code-line">
+              <span class="line-number">06</span>
+              <span class="code-light">}</span>
+            </div>
+
+            <div class="workspace-divider"></div>
+
+            <div class="mini-dashboard">
+              <div class="mini-box">
+                <span class="mini-box-label">PROJECTS</span>
+                <span class="mini-box-value">04</span>
+              </div>
+
+              <div class="mini-box">
+                <span class="mini-box-label">FOCUS</span>
+                <span class="mini-box-value blue">Build</span>
+              </div>
+
+              <div class="mini-box">
+                <span class="mini-box-label">MINDSET</span>
+                <span class="mini-box-value purple">Explore</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="visual-caption">
+          A little bit of code, a lot of curiosity.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- Projects -->
+    <section class="section" id="projects">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">Selected work</div>
+          <h2 class="section-title">My projects</h2>
+          <p class="section-description">
+            A collection of university projects, technical experiments
+            and things I've enjoyed putting together.
+          </p>
+        </div>
+
+        <!-- Featured project: Football Data Pipeline -->
+        <article class="featured-project">
+
+          <!-- Click anywhere on card to open GitHub -->
+          <a
+            href="project4.html"
+            class="card-link"
+            aria-label="Open Football Data Pipeline project"
+          ></a>
+
+          <div>
+            <span class="featured-label">
+              Featured project · Data &amp; Automation
+            </span>
+
+            <h3>Football Data Pipeline</h3>
+
+            <p>
+              A project that brings together football, Python and
+              data visualisation. I built a Flask API that generates
+              fictional football player data, then created a pipeline
+              to process the information and display it in
+              interactive dashboards.
+            </p>
+
+            <p>
+              The project also uses Docker and Jenkins to explore
+              containerisation, automated builds, testing and deployment.
+            </p>
+
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">Flask</span>
+              <span class="tag">Elasticsearch</span>
+              <span class="tag">Logstash</span>
+              <span class="tag">Filebeat</span>
+              <span class="tag">Kibana</span>
+              <span class="tag">Docker</span>
+              <span class="tag">Jenkins</span>
+            </div>
+
+            <div class="project-actions">
+              <a
+                href="project4.html"
+                class="card-link"
+                aria-label="Open Football Data Pipeline project"
+              ></a>
+            </div>
+
+            <details class="project-details">
+              <summary>Read more about this project</summary>
+              <div class="details-body">
+                <p>
+                  <strong>The idea:</strong> Generate synthetic football
+                  player records and make the data useful through
+                  searchable dashboards.
+                </p>
+
+                <p>
+                  <strong>How it works:</strong> A Python Flask application
+                  generates data, Filebeat and Logstash help collect and
+                  process it, Elasticsearch stores it, and Kibana lets
+                  users explore player statistics.
+                </p>
+
+                <p>
+                  <strong>What I explored:</strong> Data pipelines,
+                  REST APIs, containers, CI/CD, visualisation and
+                  troubleshooting across multiple connected services.
+                </p>
+              </div>
+            </details>
+          </div>
+
+          <!-- Illustrative pipeline diagram -->
+          <div class="pipeline-visual" aria-label="Simplified football data pipeline">
+            <div class="diagram-title">Project architecture</div>
+
+            <div class="pipeline-row">
+              <div class="pipeline-step">
+                <span>Generate</span>
+                <strong>Flask API</strong>
+              </div>
+
+              <div class="pipeline-arrow">→</div>
+
+              <div class="pipeline-step">
+                <span>Process</span>
+                <strong>Beats + Logstash</strong>
+              </div>
+
+              <div class="pipeline-arrow">→</div>
+
+              <div class="pipeline-step">
+                <span>Store</span>
+                <strong>Elasticsearch</strong>
+              </div>
+            </div>
+
+            <div class="pipeline-bottom">
+              ↓ &nbsp; Explore player statistics in Kibana dashboards
+            </div>
+
+            <div class="diagram-note">
+              Simplified illustration of the data flow
+            </div>
+          </div>
+        </article>
+
+        <!-- Other projects -->
+        <div class="project-grid">
+
+          <!-- YourHired -->
+          <article class="project-card">
+
+            <!-- CLICKABLE LINK TO PROJECT 3 -->
+            <a
+              class="card-link"
+              href="project3.html"
+              aria-label="Open YourHired Rota Management project"
+            ></a>
+
+            <div class="project-art art-rota" aria-hidden="true">
+              <div class="art-window">
+                <div class="art-bar"></div>
+
+                <div class="calendar-grid">
+                  <div class="calendar-cell active"></div>
+                  <div class="calendar-cell"></div>
+                  <div class="calendar-cell secondary"></div>
+                  <div class="calendar-cell"></div>
+                  <div class="calendar-cell active"></div>
+
+                  <div class="calendar-cell"></div>
+                  <div class="calendar-cell secondary"></div>
+                  <div class="calendar-cell active"></div>
+                  <div class="calendar-cell"></div>
+                  <div class="calendar-cell"></div>
+
+                  <div class="calendar-cell active"></div>
+                  <div class="calendar-cell"></div>
+                  <div class="calendar-cell"></div>
+                  <div class="calendar-cell secondary"></div>
+                  <div class="calendar-cell active"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-content">
+              <div class="project-category">
+                University · Final-year project
+              </div>
+
+              <h3>YourHired — Rota Management</h3>
+
+              <p>
+                A web application designed to help employees and managers
+                organise shifts, request time off and offer shifts to
+                colleagues.
+              </p>
+
+              <div class="tags">
+                <span class="tag">Django</span>
+                <span class="tag">Python</span>
+                <span class="tag">HTML &amp; CSS</span>
+                <span class="tag">Database Design</span>
+              </div>
+
+              <!-- VISIBLE LINK -->
+              <a class="project-open-link" href="project3.html">
+                View project <span aria-hidden="true">↗</span>
+              </a>
+
+              <details class="project-details">
+                <summary>More about this project</summary>
+                <div class="details-body">
+                  <p>
+                    <strong>The idea:</strong> Make staff scheduling and
+                    managing time-off requests easier.
+                  </p>
+
+                  <p>
+                    <strong>What I built:</strong> A role-based web application
+                    with employee and manager accounts, shift management,
+                    time-off requests and a shift offering feature.
+                  </p>
+
+                  <p>
+                    <strong>What I learned:</strong> Gathering requirements,
+                    database design, backend development and building
+                    a complete web application with Django.
+                  </p>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <!-- Role-Play Language Learning -->
+          <article class="project-card">
+
+            <!-- CLICKABLE LINK TO PROJECT 2 -->
+            <a
+              class="card-link"
+              href="project2.html"
+              aria-label="Open Role-Play Language Learning project"
+            ></a>
+
+            <div class="project-art art-language" aria-hidden="true">
+              <div class="art-window">
+                <div class="art-bar"></div>
+
+                <div class="chat-bubble question">
+                  Bonjour! Comment ça va?
+                </div>
+
+                <div class="chat-bubble answer">
+                  Ça va bien, merci!
+                </div>
+              </div>
+            </div>
+
+            <div class="project-content">
+              <div class="project-category">
+                University · Group project
+              </div>
+
+              <h3>Role-Play Language Learning</h3>
+
+              <p>
+                A collaborative project exploring how interactive
+                scenarios and conversations can help people practise
+                a new language.
+              </p>
+
+              <div class="tags">
+                <span class="tag">Database Design</span>
+                <span class="tag">SQL</span>
+                <span class="tag">Team Project</span>
+                <span class="tag">UX</span>
+              </div>
+
+              <!-- VISIBLE LINK -->
+              <a class="project-open-link" href="project2.html">
+                View project <span aria-hidden="true">↗</span>
+              </a>
+
+              <details class="project-details">
+                <summary>More about this project</summary>
+                <div class="details-body">
+                  <p>
+                    <strong>The idea:</strong> Make language practice
+                    more engaging through realistic role-playing
+                    scenarios.
+                  </p>
+
+                  <p>
+                    <strong>My contribution:</strong> Designed the
+                    database structure and worked on retrieving
+                    conversation prompts from the database.
+                  </p>
+
+                  <p>
+                    <strong>What I learned:</strong> Collaborative
+                    software development, designing data structures,
+                    problem-solving and contributing to a shared project.
+                  </p>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <!-- Road Signs Quiz -->
+          <article class="project-card">
+
+            <!-- CLICKABLE LINK TO PROJECT 1 -->
+            <a
+              class="card-link"
+              href="project1.html"
+              aria-label="Open Road Signs Quiz project"
+            ></a>
+
+            <div class="project-art art-quiz" aria-hidden="true">
+              <div class="art-window">
+                <div class="quiz-sign">30</div>
+
+                <div class="quiz-options">
+                  <div class="quiz-option"></div>
+                  <div class="quiz-option selected"></div>
+                  <div class="quiz-option"></div>
+                  <div class="quiz-option"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-content">
+              <div class="project-category">
+                College · Desktop application
+              </div>
+
+              <h3>Road Signs Quiz</h3>
+
+              <p>
+                A multiple-choice quiz application designed to test
+                knowledge of UK road signs and record quiz results
+                in a database.
+              </p>
+
+              <div class="tags">
+                <span class="tag">VB.NET</span>
+                <span class="tag">SQL</span>
+                <span class="tag">Microsoft Access</span>
+              </div>
+
+              <!-- VISIBLE LINK -->
+              <a class="project-open-link" href="project1.html">
+                View project <span aria-hidden="true">↗</span>
+              </a>
+
+              <details class="project-details">
+                <summary>More about this project</summary>
+                <div class="details-body">
+                  <p>
+                    <strong>The idea:</strong> Create a simple way
+                    for users to practise recognising road signs.
+                  </p>
+
+                  <p>
+                    <strong>What I built:</strong> A desktop quiz
+                    with multiple-choice questions and a Microsoft
+                    Access database for saving results.
+                  </p>
+
+                  <p>
+                    <strong>What I learned:</strong> Desktop application
+                    development, SQL queries, databases and handling
+                    user interactions.
+                  </p>
+                </div>
+              </details>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="section-label">A little background</div>
+          <h2 class="section-title">About me</h2>
+          <p class="section-description">
+            A bit about where I've come from and what interests me.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-panel">
+            <h3>Hi, I'm Rahib 👋</h3>
+
+            <p>
+              I studied Computer Science at university, where I
+              developed an interest in building software, working
+              with databases and figuring out how different
+              technologies fit together.
+            </p>
+
+            <p>
+              Since then, I've explored more areas of technology,
+              including Python, automation, containers, CI/CD
+              pipelines and infrastructure.
+            </p>
+
+            <p>
+              I enjoy projects that involve a mix of problem-solving,
+              creativity and learning something new. Whether it's
+              building a web application or experimenting with
+              a data pipeline, I like seeing an idea turn into
+              something that works.
+            </p>
+
+            <p>
+              Outside of technology, I'm also interested in football,
+              which is what inspired my football data project.
+            </p>
+          </div>
+
+          <div class="skills-panel" id="skills">
+            <h3>Technologies I've worked with</h3>
+
+            <div class="skill-group">
+              <div class="skill-heading">
+                Programming &amp; Web
+              </div>
+
+              <div class="skill-tags">
+                <span class="tag">Python</span>
+                <span class="tag">Java</span>
+                <span class="tag">HTML</span>
+                <span class="tag">CSS</span>
+                <span class="tag">Django</span>
+                <span class="tag">Flask</span>
+                <span class="tag">Bash</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <div class="skill-heading">
+                Data &amp; Databases
+              </div>
+
+              <div class="skill-tags">
+                <span class="tag">SQL</span>
+                <span class="tag">Relational Databases</span>
+                <span class="tag">Elasticsearch</span>
+                <span class="tag">Logstash</span>
+                <span class="tag">Kibana</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <div class="skill-heading">
+                Tools &amp; Infrastructure
+              </div>
+
+              <div class="skill-tags">
+                <span class="tag">Git</span>
+                <span class="tag">GitHub</span>
+                <span class="tag">Linux</span>
+                <span class="tag">Docker</span>
+                <span class="tag">Kubernetes</span>
+                <span class="tag">OpenShift</span>
+                <span class="tag">Jenkins</span>
+                <span class="tag">Terraform</span>
+                <span class="tag">Helm</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <div class="skill-heading">
+                Other Experience
+              </div>
+
+              <div class="skill-tags">
+                <span class="tag">Agile</span>
+                <span class="tag">Team Projects</span>
+                <span class="tag">Troubleshooting</span>
+                <span class="tag">Documentation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="contact-panel">
+          <div class="section-label">
+            That's all for now
+          </div>
+
+          <h2>Thanks for stopping by!</h2>
+
+          <p>
+            I'll be adding more projects and experiments as I build
+            and learn new things. Feel free to explore my GitHub
+            to see what I've been working on.
+          </p>
+
+          <a
+            href="https://github.com/Rahib20"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="button button-primary"
+          >
+            Explore my GitHub ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <span>
+        © <span id="year">2026</span> Rahib Rahman
+      </span>
+
+      <span>Built with HTML, CSS and curiosity.</span>
+
+      <a href="#top">
+        Back to top ↑
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+</html>
